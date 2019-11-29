@@ -170,7 +170,7 @@ void removerLista(LISTA *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    printf("NAO ENCONTROU");
+                    AvisoNumeroNaoEcontrado();
                     return;
                 }
                 ante->proximo=aux->proximo;//
@@ -231,6 +231,51 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
 
 
 
+void editarPalestrante(LISTA* li, int cadastroINFO){
+    //mostrar os dados do campeonato de determinado ano informado pelo usuario
+    if(li !=NULL){
+        CAPS* aux=li->inicio;
+        while(aux!=NULL){//varre todos da lista
+            if(aux->dado.n_cadastroP==cadastroINFO){//se o ano for igual ao ano procurado ele mostra as informações
+                VcadastrarPalestra();
+                gotoxy(27,32);printf("%d",aux->dado.n_cadastroP);
+                //------------------------------capacidade
+                gotoxy(48,13);printf("%d",aux->dado.capacidade);
+                gotoxy(53,13);scanf("%d",&aux->dado.capacidade);setbuf(stdin,NULL);
+                gotoxy(48,13);printf("   ")
+                while((aux->dado.capacidade<50) || (aux->dado.capacidade>150)){
+                gotoxy(48,13);printf("              ");
+                gotoxy(42,14);printf(C_RED"ENTRE 50 a 150"C_WHITE);
+                gotoxy(39,32);printf(C_RED"A CAPACIDADE DEVE ESTAR ENTRE OS LIMITES PERMITIDOS!!!"C_WHITE);
+                gotoxy(48,13);scanf("%d",&aux->dado.capacidade);setbuf(stdin,NULL);//horario
+                gotoxy(42,14);printf("                    ");
+                gotoxy(39,32);printf("                                                              ");
+                }
+                //-----------------------horario
+                gotoxy(48,16);printf("%s",aux->dado.horario);
+                gotoxy(48,16);gets(aux->dado.horario);
+                while(strlen(aux->dado.horario)!=5){//meeh criar uma fucnao que verifica horario se formato for igual e tier disponivel e retunar 1 se sim
+                gotoxy(43,17);printf(C_RED"FORMATO 00:00"C_WHITE);
+                gotoxy(39,32);printf(C_RED"DEVE ESTAR NO FORMATO DE 00:00 E TER HORARIO DISPONIVEL!!!"C_WHITE);
+                gotoxy(48,16);printf("      ");
+                gotoxy(48,16);gets(aux->dado.horario);
+                gotoxy(43,17);printf("                 ");
+                gotoxy(39,32);printf("                                                            ");
+                }
+                VeditadoComSucesso();
+                return;
+            }
+            aux=aux->proximo;
+        }
+        //caso nao tenha enrado no if e dado break;
+        AvisoNumeroNaoEcontrado();
+        return;
+    }else{
+        printf("ERRO DE ALOCACAO!!!\n");
+    }
+}
+
+
 
 main(){
 
@@ -241,16 +286,25 @@ main(){
 
     pegarInfoPalestra(&eP,liP,n_cadastroP);
     inserirLista(liP,eP);
+    //mostrar todos
+    //
+    system("cls");
+    int num_editar;
+    VeditarPalestra();
+    gotoxy(22,17);scanf("%d",&num_editar);
+    system("cls");
+    editarPalestrante(liP,num_editar);
+    //
     system("cls");
     mostrarTodos(liP);
     getchar();
-    //removersystem("cls");
+    //remover
     system("cls");
     int num_remover;
     VremoverPalestra();
     gotoxy(19,17);scanf("%d",&num_remover);
-
     removerLista(liP,num_remover);
+//editar
 
 
     liberar(liP);
