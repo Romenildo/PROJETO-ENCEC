@@ -450,20 +450,28 @@ AvisoEventoPalestra(){
     gotoxy(72,22);printf("Avisos xxxxxxxxx");
 
 }
-AvisoEventoPalestraLocais(){
+AvisoEventoPalestraLocais(int limAud1,int limAud2,int limAud3){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf(" CADASTRAR");
+    gotoxy(79,14);printf(" PALESTRA");
     gotoxy(80,15);printf(" AVISOS");
-    gotoxy(72,17);printf("Capacidade  39/50");
-    gotoxy(72,18);printf("Locais disponiveis");
-    gotoxy(72,19);printf("Auditorio 1");
-    gotoxy(72,20);printf("Auditorio 2");
-    gotoxy(72,21);printf("Auditorio 3");
-    gotoxy(72,22);printf("Auditorio 4");
+    gotoxy(72,17);printf("  Locais disponiveis");
+
+    gotoxy(72,19);printf("1-Auditorio 1   %d/150",limAud1);
+    if(limAud1==150){
+        gotoxy(72,19);printf(C_RED"1-Auditorio 1   Cheio"C_WHITE);//caso o limite do auditorio alcançar o maximo  ficara cheio
+    }
+    gotoxy(72,20);printf("2-Auditorio 2   %d/100",limAud2);
+    if(limAud2==100){
+        gotoxy(72,20);printf(C_RED"1-Auditorio 2   Cheio"C_WHITE);
+    }
+    gotoxy(72,21);printf("3-Auditorio 3   %d/50",limAud3);
+    if(limAud3==50){
+        gotoxy(72,20);printf(C_RED"1-Auditorio 3   Cheio"C_WHITE);
+    }
 
 }
 AvisoEventoLimpar(){
@@ -472,14 +480,14 @@ AvisoEventoLimpar(){
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf("                    ");
-    gotoxy(80,15);printf("                     ");
-    gotoxy(72,17);printf("                      ");
-    gotoxy(72,18);printf("                     ");
-    gotoxy(72,19);printf("                     ");
-    gotoxy(72,20);printf("                ");
-    gotoxy(72,21);printf("                  ");
-    gotoxy(72,22);printf("                 ");
+    gotoxy(79,14);printf("                      ");
+    gotoxy(80,15);printf("                       ");
+    gotoxy(72,17);printf("                       ");
+    gotoxy(72,18);printf("                       ");
+    gotoxy(72,19);printf("                       ");
+    gotoxy(72,20);printf("                      ");
+    gotoxy(72,21);printf("                        ");
+    gotoxy(72,22);printf("                        ");
 
 }
 
@@ -533,7 +541,23 @@ AvisoEventoOficina(){
 
 }
 //-------------------------------AJEIAR ESSE FINAL
+VeditarPalestra(){
 
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR PALESTRA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
 VremoverPalestra(){
 
 Vcabecalho();
@@ -544,7 +568,7 @@ linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER PALESTRA");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
-Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("NUMERO:");
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
 //----------DESEJA REALMENTE REMOVER--
 //VdesejaRemover();//condicao para aparecer somente depois que aparecer
 
@@ -559,7 +583,16 @@ Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,
                                                                      gotoxy(80,23);printf("1-SIM/2-NAO");
 }
 
-AvisoEventoRemoverPalestra(){
+VeditadoComSucesso(){
+
+linhaH(30,70,17);linhaV(8,70,17);linhaH(30,70,25);linhaV(8,100,17);
+Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,20);printf("EDITADO COM SUCESSO!!!");
+                                                                     gotoxy(76,23);printf("VOLTANDO...");
+Sleep(2500);
+
+}
+
+AvisoNumeroNaoEcontrado(){
 
 linhaH(30,70,17);linhaV(8,70,17);linhaH(30,70,25);linhaV(8,100,17);
 Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,20);printf("NUMERO NAO ENCONTRADO");
