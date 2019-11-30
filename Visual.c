@@ -320,6 +320,19 @@ linhaV(13,65,12);Pchar(65,12,194);Pchar(65,15,180);Pchar(65,18,180);Pchar(65,21,
 Pchar(65,24,193);
 
 }
+VcadastrarCongressista(){
+    system("cls");
+    Vcadastrar();
+    gotoxy(16,13);printf("IDADE ");
+    gotoxy(16,16);printf("TELEFONE");
+    gotoxy(16,19);printf("CPF");
+    gotoxy(16,22);printf("CURSO");
+    gotoxy(16,25);printf("EMAIL");
+    gotoxy(16,28);printf("NOME");
+    gotoxy(16,32);printf("MATRICULA");
+    linhaV(4,75,24);Pchar(75,24,194);Pchar(75,27,193);
+    AvisoEventoLimpar();
+}
 
 VcadastrarPalestra(){
     system("cls");
@@ -332,7 +345,7 @@ VcadastrarPalestra(){
     gotoxy(16,28);printf("PALESTRANTE");
     gotoxy(16,32);printf("CADASTRO");
     linhaV(4,75,24);Pchar(75,24,194);Pchar(75,27,193);
-    AvisoEventoPalestra();
+    AvisoEventoLimpar();
 }
 VcadastrarGrupos(){
     system("cls");
@@ -480,8 +493,8 @@ AvisoEventoLimpar(){
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf("                      ");
-    gotoxy(80,15);printf("                       ");
+    gotoxy(79,14);printf(" CADASTRAR");
+    gotoxy(80,15);printf(" AVISOS");
     gotoxy(72,17);printf("                       ");
     gotoxy(72,18);printf("                       ");
     gotoxy(72,19);printf("                       ");
@@ -541,6 +554,24 @@ AvisoEventoOficina(){
 
 }
 //-------------------------------AJEIAR ESSE FINAL
+VeditarCongressista(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR CONGRESSISTA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
+
 VeditarPalestra(){
 
 Vcabecalho();
@@ -574,6 +605,22 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 
 //AVISOx REMOVIDO COM SUCESSO
 
+}VremoverCongressista(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER CONGRESSISTA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
 }
 
 VdesejaRemover(){
@@ -584,7 +631,7 @@ Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,
 }
 
 VeditadoComSucesso(){
-
+system("cls");
 linhaH(30,70,17);linhaV(8,70,17);linhaH(30,70,25);linhaV(8,100,17);
 Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,20);printf("EDITADO COM SUCESSO!!!");
                                                                      gotoxy(76,23);printf("VOLTANDO...");
@@ -600,3 +647,6 @@ Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,
 Sleep(2500);
 
 }
+
+
+//-----------------------------------------Cadastrar congressista
