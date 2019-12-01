@@ -11,12 +11,12 @@ typedef struct{
     char cpf[15];
     char telefone[15];
     char email[30];
-}EVENTOO;//evento palestras
+}ORGANIZADOR;//evento palestras
 
 
 //--------------------------------fila para eventos-----------
 typedef struct capsulaO{
-    EVENTOO dado;
+    ORGANIZADOR dado;
     struct capsulaO *proximo;
 }CAPSO;
 
@@ -59,7 +59,7 @@ void mostrarTodosO(LISTAO* li){
                 printf("\nNome: %s",aux->dado.nome);
                 printf("\nCPF: %s",aux->dado.cpf);
                 printf("\ntelefone: %s",aux->dado.telefone);
-                printf("\nEmail: %s",aux->dado.nome);
+                printf("\nEmail: %s",aux->dado.email);
                 printf("\n--------------------------------------------\n");
 
                 aux=aux->proximo;
@@ -86,7 +86,7 @@ int tamanhoListaO(LISTAO *li){
     }
 }
 
-void inserirListaO(LISTAO *li,EVENTOO eO){//insere na ordem de matricula
+void inserirListaO(LISTAO *li,ORGANIZADOR eO){//insere na ordem de matricula
     if(li==NULL){
         //ERRO
     }else{
@@ -171,7 +171,7 @@ void removerListaO(LISTAO *li,int num){//recebe numero da matricula
 }
 
 
-pegarInfoOrganizador(EVENTOO *eO,LISTAO *liO,int MatriculaO){
+pegarInfoOrganizador(ORGANIZADOR *eO,LISTAO *liO,int MatriculaO){
 
     MatriculaO++;//9000
     gotoxy(21,29);printf("%d",MatriculaO);
@@ -237,7 +237,7 @@ void editarOrganizador(LISTAO* li, int matriculaINFO){
 
 main(){
 
-    EVENTOO eO;
+    ORGANIZADOR eO;
     LISTAO *liO= CriarO();
     int MatriculaO=3000;
     VcadastrarOrganizador();
