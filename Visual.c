@@ -118,8 +118,10 @@ Vcabecalho(){
     linhaH(100,6,11);linhaV(23,5,11);linhaH(100,6,34);linhaV(23,106,11);
     Pchar(5,11,218);Pchar(106,11,191);Pchar(5,34,192);Pchar(106,34,217);
 
-    gotoxy(8,6);printf("UNIVERSIDADE ESTADUAL DA PARAIBA");
-    gotoxy(83,9);printf("DATA: ___/___/____");
+    gotoxy(8,6);printf("UEPB - UNIVERSIDADE ESTADUAL DA PARAIBA");
+    gotoxy(8,9);printf("GERENCIAMENTO - ENCEC");
+
+    gotoxy(80,9);printf("%s  , %s\n",__DATE__,__TIME__);
 }
 
 VopcoesPrincipal(){
@@ -708,6 +710,66 @@ Vcabecalho();
 //-------------REMOVER PALESTRA
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER ORGANIZADOR");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
+
+
+//PALESTRANTE
+VcadastrarPalestrante(){
+
+Vcabecalho();
+
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("CADASTRAR PALESTRANTE");
+//-------------NOME
+linhaH(70,7,16);linhaV(3,7,16);linhaH(70,7,18);linhaV(3,77,16);
+Pchar(7,16,218);Pchar(77,16,191);Pchar(7,18,192);Pchar(77,18,217);gotoxy(12,17);printf("NOME:");
+//cpf
+linhaH(43,7,19);linhaV(3,7,19);linhaH(43,7,21);linhaV(3,50,19);
+Pchar(7,19,218);Pchar(50,19,191);Pchar(7,21,192);Pchar(50,21,217);gotoxy(12,20);printf("CPF:");
+//telefeone
+linhaH(43,7,22);linhaV(3,7,22);linhaH(43,7,24);linhaV(3,50,22);
+Pchar(7,22,218);Pchar(50,22,191);Pchar(7,24,192);Pchar(50,24,217);gotoxy(12,23);printf("TELEFONE:");
+//enail
+linhaH(70,7,25);linhaV(3,7,25);linhaH(70,7,27);linhaV(3,77,25);
+Pchar(7,25,218);Pchar(77,25,191);Pchar(7,27,192);Pchar(77,27,217);gotoxy(12,26);printf("EMAIL:");
+//matricula
+linhaH(30,7,28);linhaV(3,7,28);linhaH(30,7,30);linhaV(3,37,28);
+Pchar(7,28,218);Pchar(37,28,191);Pchar(7,30,192);Pchar(37,30,217);gotoxy(11,29);printf("MATRICULA:");
+
+//TALVEZ UM ADICIONAR NOVAMENTE AQUI
+}
+
+VeditarPalestrante(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR PALESTRANTE");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+//----------DESEJA REALMENTE REMOVER--
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
+VremoverPalestrante(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER PALESTRANTE");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
