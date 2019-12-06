@@ -3,19 +3,14 @@
 #include<windows.h>
 #include "Visual.h"
 
-int limAud1=0;
-int limAud2=0;
-int limAud3=0;
 
-
-#define C_RESET   "\x1b[0m"
 #define C_BLACK      "\x1b[30m"
 #define C_RED      "\x1b[31m"
 #define C_GREEN      "\x1b[32m"
 #define C_YELLOW      "\x1b[33m"
 #define C_WATER      "\x1b[36m"
 #define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[37m"
+#define C_WHITE      "\x1b[1m"
 
 typedef struct{
     int n_cadastroP;
@@ -74,7 +69,8 @@ void mostrarTodosP(LISTA* li){
                 printf("\nHorario: %s",aux->dado.horario);
                 printf("\nCarga horaria: %d",aux->dado.cargaHoraria);
                 printf("\nlocal: Auditorio %d",aux->dado.local);
-                printf("\nTema: %s",aux->dado.tema);
+                printf("\nCapacidade: %d",aux->dado.capacidade);
+                printf("\n\nTema: %s",aux->dado.tema);
                 printf("\nPalestrante: %s",aux->dado.palestrante);
                 printf("\n--------------------------------------------\n");
 
@@ -188,32 +184,26 @@ void removerLista(LISTA *li,int num){//recebe numero da matricula
 
 }
 
-int PegarLocalPalestra(EVENTOP *eP){
+int PegarLocalPalestra(){
     //transforma a opcao local 1,2,3 em uma string
-
+    int local;
     int on=1;
     while(on){
-        gotoxy(42,23);printf("[Entre 1-3]");
-        gotoxy(46,22);scanf("%d",&eP->local);setbuf(stdin,NULL);
+        gotoxy(42,17);printf("[Entre 1-3]");
+        gotoxy(46,16);scanf("%d",&local);setbuf(stdin,NULL);
 
-        switch(eP->local){
+        switch(local){
             case 1:
-                gotoxy(42,22);printf("Auditorio 1");
-
-                limAud1++;
-
+                gotoxy(42,16);printf("Auditorio 1");
                 on=0;
                 break;
             case 2:
-                gotoxy(42,22);printf("Auditorio 2");
-
-                limAud2++;
-
+                gotoxy(42,16);printf("Auditorio 2");
                 on=0;
                 break;
             case 3:
-                gotoxy(42,22);printf("Auditorio 3");
-                limAud3++;
+                gotoxy(42,16);printf("Auditorio 3");
+
                 on=0;
                 break;
             default:
@@ -223,8 +213,43 @@ int PegarLocalPalestra(EVENTOP *eP){
 
     }
     gotoxy(39,32);printf("                                                            ");
-    gotoxy(42,23);printf("             ");
-    return eP->local;
+    gotoxy(42,17);printf("             ");
+    return local;
+}
+
+int PegarHorarioPalestra(char horas[7][10]){
+
+    int hora;
+    int on=1;
+    while(on){
+        gotoxy(48,22);scanf("%d",&hora);setbuf(stdin,NULL);
+
+        switch(hora){
+            case 1:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            case 2:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            case 3:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            case 4:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            case 5:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            case 6:
+                gotoxy(46,22);printf("%s",horas[hora]);
+                return hora;
+            default:
+                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+
+        }
+
+    }
+    gotoxy(39,32);printf("                                                            ");
 }
 
 pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
@@ -233,41 +258,63 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
     gotoxy(27,32);printf("%d",n_cadastroP);
     eP->n_cadastroP=n_cadastroP;
 //------------------------------capacidade
-    gotoxy(48,13);scanf("%d",&eP->capacidade);setbuf(stdin,NULL);
-    while((eP->capacidade<50) || (eP->capacidade>150)){
-        gotoxy(48,13);printf("              ");
-        gotoxy(42,14);printf(C_RED"ENTRE 50 a 150"C_WHITE);
-        gotoxy(39,32);printf(C_RED"A CAPACIDADE DEVE ESTAR ENTRE OS LIMITES PERMITIDOS!!!"C_WHITE);
-        gotoxy(48,13);scanf("%d",&eP->capacidade);setbuf(stdin,NULL);//horario
-        gotoxy(42,14);printf("                    ");
-        gotoxy(39,32);printf("                                                              ");
-    }
-//-----------------------horario
-    gotoxy(46,16);gets(eP->horario);
-    while(strlen(eP->horario)!=5){//meeh criar uma fucnao que verifica horario se formato for igual e tier disponivel e retunar 1 se sim
-        gotoxy(43,17);printf(C_RED"FORMATO 00:00"C_WHITE);
-        gotoxy(39,32);printf(C_RED"DEVE ESTAR NO FORMATO DE 00:00 E TER HORARIO DISPONIVEL!!!"C_WHITE);
-        gotoxy(48,16);printf("      ");
-        gotoxy(46,16);gets(eP->horario);
-        gotoxy(43,17);printf("                 ");
-        gotoxy(39,32);printf("                                                            ");
-    }
-    //deve estar no formato 00:00
+    gotoxy(48,13);printf("---");
+//-----------------------local
+    AvisoEventoLimpar();
+    AvisoEventoPalestraLocais();
+    eP->local=PegarLocalPalestra();//eP->local
+    //capacidade dependendo do local
+        if(eP->local==1){
+            eP->capacidade =150;
+        }
+        if(eP->local==2){
+            eP->capacidade =100;
+        }
+        if(eP->local==3){
+            eP->capacidade =50;
+        }
+        gotoxy(48,13);printf("   ");
+        gotoxy(48,13);printf("%d",eP->capacidade);setbuf(stdin,NULL);
+
+
+
+    AvisoEventoLimpar();
 //---------------------------------------carga horaria
     gotoxy(48,19);scanf("%d",&eP->cargaHoraria);setbuf(stdin,NULL);
 
-//---------------------------local
-    AvisoEventoLimpar();
-    AvisoEventoPalestraLocais(limAud1,limAud2,limAud3);
-    eP->local=PegarLocalPalestra(&eP);//eP->local
+//---------------------------horario
+    char horasL1[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    char horasL2[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    char horasL3[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    int H;
+    if(eP->local==1){
+            AvisoEventoPalestraHorario(horasL1);
+            H =PegarHorarioPalestra(horasL1);
+            strcpy(eP->horario,horasL1[H]);
+            strcpy(horasL1[H],"indis.");
+        }
+        if(eP->local==2){
+            AvisoEventoPalestraHorario(horasL2);
+            H =PegarHorarioPalestra(horasL2);
+            strcpy(eP->horario,horasL2[H]);
+            strcpy(horasL2[H],"indis.");
+        }
+        if(eP->local==3){
+            AvisoEventoPalestraHorario(horasL3);
+            H =PegarHorarioPalestra(horasL3);
+            strcpy(eP->horario,horasL3[H]);
+            strcpy(horasL3[H],"indis.");
+        }
+
 
 
 //--------------------------------tema
     AvisoEventoLimpar();
+    AvisoEventoPalestraHorario(horasL1);
     gotoxy(40,25);gets(eP->tema);
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
-    gotoxy(40,28);gets(eP->palestrante);
+    gotoxy(40,28);gets(eP->palestrante);setbuf(stdin,NULL);
         //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
 }
 //verificarPalestrante(PALESTRANTES *p, char palestrante){
@@ -280,40 +327,29 @@ EditarLocalPalestra(CAPS *aux){
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
     if(aux->dado.local==1){
-        limAud1--;
-        gotoxy(42,22);printf("Auditorio 1");
+        gotoxy(42,16);printf("Auditorio 1");
     }
     if(aux->dado.local==2){
-        limAud2--;
-        gotoxy(42,22);printf("Auditorio 2");
+        gotoxy(42,16);printf("Auditorio 2");
     }
     if(aux->dado.local==3){
-        limAud3--;
-        gotoxy(42,22);printf("Auditorio 3");
+        gotoxy(42,16);printf("Auditorio 3");
     }
-    //caso a pessoa escolha aud 1 e quando editar aud 1 novamente ele ira diminuir, mais adicionara 1 novamente depois
     int on=1;
     while(on){
-        gotoxy(43,23);printf("=>");
-        gotoxy(46,23);scanf("%d",&aux->dado.local);setbuf(stdin,NULL);
+        gotoxy(43,17);printf("=>");
+        gotoxy(46,17);scanf("%d",&aux->dado.local);setbuf(stdin,NULL);
         switch(aux->dado.local){
             case 1:
-                gotoxy(42,23);printf("Auditorio 1");
-
-                limAud1++;
-
+                gotoxy(40,17);printf("=>Auditorio 1");
                 on=0;
                 break;
             case 2:
-                gotoxy(42,23);printf("Auditorio 2");
-
-                limAud2++;
-
+                gotoxy(40,17);printf("=>Auditorio 2");
                 on=0;
                 break;
             case 3:
-                gotoxy(42,23);printf("Auditorio 3");
-                limAud3++;
+                gotoxy(40,17);printf("=>Auditorio 3");
                 on=0;
                 break;
             default:
@@ -334,37 +370,35 @@ void editarPalestra(LISTA* li, int cadastroINFO){
                 VcadastrarPalestra();
                 gotoxy(27,32);printf("%d",aux->dado.n_cadastroP);
                 //------------------------------capacidade
-                gotoxy(48,13);printf("%d =>",aux->dado.capacidade);
-                gotoxy(54,13);scanf("%d",&aux->dado.capacidade);setbuf(stdin,NULL);
-                while((aux->dado.capacidade<50) || (aux->dado.capacidade>150)){
-                    gotoxy(48,13);printf("              ");
-                    gotoxy(42,14);printf(C_RED"ENTRE 50 a 150"C_WHITE);
-                    gotoxy(39,32);printf(C_RED"A CAPACIDADE DEVE ESTAR ENTRE OS LIMITES PERMITIDOS!!!"C_WHITE);
-                    gotoxy(48,13);printf("%d =>",aux->dado.capacidade);
-                    gotoxy(54,13);scanf("%d",&aux->dado.capacidade);setbuf(stdin,NULL);//horario
-                    gotoxy(42,14);printf("                    ");
-                    gotoxy(39,32);printf("                                                              ");
+                gotoxy(48,13);printf("%d =>---",aux->dado.capacidade);setbuf(stdin,NULL);
+
+                //-----------------------local
+                AvisoEventoLimpar();
+                AvisoEventoPalestraLocais();
+                EditarLocalPalestra(aux);
+                //capacidade
+                if(aux->dado.local==1){
+                    aux->dado.capacidade =150;
                 }
-                //-----------------------horario
-                gotoxy(46,16);printf("%s =>",aux->dado.horario);
-                gotoxy(55,16);gets(aux->dado.horario);
-                while(strlen(aux->dado.horario)!=5){//meeh criar uma fucnao que verifica horario se formato for igual e tier disponivel e retunar 1 se sim
-                gotoxy(43,17);printf(C_RED"FORMATO 00:00"C_WHITE);
-                gotoxy(39,32);printf(C_RED"DEVE ESTAR NO FORMATO DE 00:00 E TER HORARIO DISPONIVEL!!!"C_RESET);
-                gotoxy(48,16);printf("      ");
-                gotoxy(55,16);gets(aux->dado.horario);
-                gotoxy(43,17);printf("                 ");
-                gotoxy(39,32);printf("                                                            ");
+                if(aux->dado.local==2){
+                    aux->dado.capacidade =100;
                 }
+                if(aux->dado.local==3){
+                    aux->dado.capacidade =50;
+                }
+                gotoxy(54,13);printf("   ");
+                gotoxy(54,13);printf("%d",aux->dado.capacidade);
+                AvisoEventoLimpar();
+
+
                 //---------------------------------------carga horaria
                 gotoxy(48,19);printf("%d =>",aux->dado.cargaHoraria);
                 gotoxy(54,19);scanf("%d",&aux->dado.cargaHoraria);setbuf(stdin,NULL);
 
-                //---------------------------local
-                AvisoEventoLimpar();
-                AvisoEventoPalestraLocais(limAud1,limAud2,limAud3);
-                EditarLocalPalestra(aux);
-                AvisoEventoLimpar();
+                //---------------------------horario
+                gotoxy(46,16);printf("%s =>",aux->dado.horario);
+                gotoxy(55,16);gets(aux->dado.horario);
+
 
                 //--------------------------------tema
                 gotoxy(40,25);printf("%s",aux->dado.tema);
@@ -381,7 +415,7 @@ void editarPalestra(LISTA* li, int cadastroINFO){
             }
             aux=aux->proximo;
         }
-        //caso nao tenha enrado no if e dado break;
+        //caso nao tenha entrado no if e dado break;
         AvisoNumeroNaoEcontrado();
         return;
     }else{
@@ -394,6 +428,7 @@ void editarPalestra(LISTA* li, int cadastroINFO){
 main(){
 
     VcadastrarPalestra();
+
     EVENTOP eP;
     LISTA *liP=Criar();
     int n_cadastroP=1000;
@@ -417,10 +452,15 @@ main(){
     system("cls");
     int num_remover;
     VremoverPalestra();
-    gotoxy(19,17);scanf("%d",&num_remover);
+    gotoxy(22,17);scanf("%d",&num_remover);
     removerLista(liP,num_remover);
 //editar
 
 
     liberar(liP);
 }
+
+
+
+
+//para rodar basta colocar no projeto com visual
