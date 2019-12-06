@@ -137,8 +137,7 @@ VopcoesPrincipal(){
     gotoxy(11,16);PFchar(175);printf(" GRUPOS DE DISCUSSÕES");
     gotoxy(11,17);PFchar(175);printf(" CURSOS");
     gotoxy(11,18);PFchar(175);printf(" OFICINAS");
-    gotoxy(11,19);PFchar(175);printf(" xxxxxxxxxxxx");
-    gotoxy(11,20);PFchar(175);printf(" xxxxxxxxxxxx");
+    gotoxy(11,19);PFchar(175);printf(" VOLTAR");
 
     //-----------------------2H
     linhaH(27,42,12);linhaH(27,42,14);linhaV(10,42,12);linhaV(10,69,12);linhaH(27,42,22);
@@ -148,9 +147,7 @@ VopcoesPrincipal(){
     gotoxy(44,16);PFchar(175);printf(" LISTAR");
     gotoxy(44,17);PFchar(175);printf(" EDITAR");
     gotoxy(44,18);PFchar(175);printf(" REMOVER");
-    gotoxy(44,19);PFchar(175);printf(" xxxxxxxxxxxx");
-    gotoxy(44,20);PFchar(175);printf(" xxxxxxxxxxxx");
-
+    gotoxy(44,19);PFchar(175);printf(" VOLTAR");
     //------------------------3H
     linhaH(27,74,12);linhaH(27,74,14);linhaV(10,74,12);linhaV(10,100,12);linhaH(27,74,22);
     Pchar(74,12,218);Pchar(100,12,191);Pchar(74,14,195);Pchar(100,14,180);Pchar(74,22,192);Pchar(100,22,217);
@@ -159,8 +156,7 @@ VopcoesPrincipal(){
     gotoxy(76,16);PFchar(175);printf(" LISTAR");
     gotoxy(76,17);PFchar(175);printf(" EDITAR");
     gotoxy(76,18);PFchar(175);printf(" REMOVER");
-    gotoxy(76,19);PFchar(175);printf(" xxxxxxxxxxxx");
-    gotoxy(76,20);PFchar(175);printf(" xxxxxxxxxxxx");
+    gotoxy(76,19);PFchar(175);printf(" VOLTAR");
     //----------------------1V altura 23
     linhaH(27,9,23);linhaH(27,9,25);linhaV(10,9,23);linhaV(10,36,23);linhaH(27,9,33);
     Pchar(9,23,218);Pchar(36,23,191);Pchar(9,25,195);Pchar(36,25,180);Pchar(9,33,192);Pchar(36,33,217);
@@ -169,12 +165,11 @@ VopcoesPrincipal(){
     gotoxy(11,27);PFchar(175);printf(" LISTAR");
     gotoxy(11,28);PFchar(175);printf(" EDITAR");
     gotoxy(11,29);PFchar(175);printf(" REMOVER");
-    gotoxy(11,30);PFchar(175);printf(" xxxxxxxxxxxx");
-    gotoxy(11,31);PFchar(175);printf(" xxxxxxxxxxxx");
+    gotoxy(11,30);PFchar(175);printf(" VOLTAR");
     //-----------------------2V
     linhaH(27,42,23);linhaH(27,42,25);linhaV(10,42,23);linhaV(10,69,23);linhaH(27,42,33);
     Pchar(42,23,218);Pchar(69,23,191);Pchar(42,25,195);Pchar(69,25,180);Pchar(42,33,192);Pchar(69,33,217);
-    gotoxy(44,24);printf("5-Grupos de dicurcoes");
+    gotoxy(44,24);printf("5-GERENCIAR EVENTOS");
     gotoxy(44,26);PFchar(175);printf(" xxxxxxxxxxxx");
     gotoxy(44,27);PFchar(175);printf(" xxxxxxxxxxxx");
     gotoxy(44,28);PFchar(175);printf(" xxxxxxxxxxxx");
@@ -370,9 +365,9 @@ VcadastrarCurso(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");//MAX 40
-    gotoxy(16,16);printf("HORARIO");
+    gotoxy(16,16);printf("LOCAL");
     gotoxy(16,19);printf("CARGA HORARIA");//TARDE
-    gotoxy(16,22);printf("LOCAL");
+    gotoxy(16,22);printf("HORARIO");
     gotoxy(16,25);printf("TEMA");
     gotoxy(14,28);printf("PROF. PALESTRANTE");
     gotoxy(16,32);printf("CADASTRO");
@@ -480,7 +475,38 @@ AvisoEventoPalestraLocais(){
 
     gotoxy(72,21);printf("3-Auditorio 3        50");
 }
+AvisoEventoCursoLocais(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
+    Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf("  Locais disponiveis");
+
+    gotoxy(72,19);printf("         1-Sala 1        ");
+
+    gotoxy(72,20);printf("         2-Sala 2        ");
+
+    gotoxy(72,21);printf("         3-Sala 3        ");
+}
 AvisoEventoPalestraHorario(char horas[7][10]){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
+    Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+
+    gotoxy(72,16);printf("  Horarios disponiveis");
+    int X=81,Y=17;
+    for(int i=1;i<7;i++){
+        gotoxy(X,Y);printf("%d-%s",i,horas[i]);
+        Y++;
+
+    }
+
+}
+
+AvisoEventoCursoHorario(char horas[7][10]){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -598,6 +624,23 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
+VeditarCurso(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR CURSO");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
 VremoverPalestra(){
 
 Vcabecalho();
@@ -606,6 +649,23 @@ Vcabecalho();
 //-------------REMOVER PALESTRA
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER PALESTRA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
+VremoverCurso(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER CURSO");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
