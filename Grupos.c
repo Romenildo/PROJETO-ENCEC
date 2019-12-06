@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h>//grupos
 #include<windows.h>
 #include "Visual.h"
     char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
