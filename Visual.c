@@ -348,9 +348,9 @@ VcadastrarGrupos(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");//30 A 50
-    gotoxy(16,16);printf("HORARIO");
+    gotoxy(16,16);printf("LOCAL");
     gotoxy(16,19);printf("CARGA HORARIA");//TARDE
-    gotoxy(16,22);printf("LOCAL");
+    gotoxy(16,22);printf("HORARIO");
     gotoxy(16,25);printf("TEMA");
     gotoxy(16,28);printf("MEMBROS");
     gotoxy(16,32);printf("NUMERO");
@@ -489,6 +489,8 @@ AvisoEventoCursoLocais(){
 
     gotoxy(72,21);printf("         3-Sala 3        ");
 }
+
+
 AvisoEventoPalestraHorario(char horas[7][10]){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
@@ -658,6 +660,23 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
+VremoverGrupo(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER GRUPOS");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+//----------DESEJA REALMENTE REMOVER--
+//VdesejaRemover();//condicao para aparecer somente depois que aparecer
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
 VremoverCurso(){
 
 Vcabecalho();
@@ -760,6 +779,21 @@ Vcabecalho();
 //-------------REMOVER PALESTRA
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR ORGANIZADOR");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+//----------DESEJA REALMENTE REMOVER--
+
+//AVISOx REMOVIDO COM SUCESSO
+
+}
+VeditarGrupo(){
+
+Vcabecalho();
+//------INFORMAÇOES
+//-------------REMOVER PALESTRA
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR GRUPOS");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
