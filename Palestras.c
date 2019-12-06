@@ -2,6 +2,11 @@
 #include<stdlib.h>
 #include<windows.h>
 #include "Visual.h"
+    char horasBASE[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    char horasL1[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    char horasL2[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+    char horasL3[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+
 
 
 #define C_BLACK      "\x1b[30m"
@@ -20,7 +25,7 @@ typedef struct{
     int local;//ou int local 1laboratorio 2
     char tema[30];
     char palestrante[30];
-    int on;
+    int EditH;
 }EVENTOP;//evento palestras
 
 
@@ -283,9 +288,7 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
     gotoxy(48,19);scanf("%d",&eP->cargaHoraria);setbuf(stdin,NULL);
 
 //---------------------------horario
-    char horasL1[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
-    char horasL2[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
-    char horasL3[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+
     int H;
     if(eP->local==1){
             AvisoEventoPalestraHorario(horasL1);
@@ -305,12 +308,12 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
             strcpy(eP->horario,horasL3[H]);
             strcpy(horasL3[H],"indis.");
         }
+        eP->EditH=H;//guardar a posição no vetor para quando for editar
 
 
 
 //--------------------------------tema
     AvisoEventoLimpar();
-    AvisoEventoPalestraHorario(horasL1);
     gotoxy(40,25);gets(eP->tema);
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
@@ -337,6 +340,7 @@ EditarLocalPalestra(CAPS *aux){
     }
     int on=1;
     while(on){
+        gotoxy(43,17);printf("       ");
         gotoxy(43,17);printf("=>");
         gotoxy(46,17);scanf("%d",&aux->dado.local);setbuf(stdin,NULL);
         switch(aux->dado.local){
@@ -360,6 +364,41 @@ EditarLocalPalestra(CAPS *aux){
     }
     gotoxy(39,32);printf("                                                            ");
 }
+
+EditarHorarioPalestra(CAPS *aux){
+    //transforma a opcao local 1,2,3 em uma string
+
+    //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
+    gotoxy(46,23);printf("%s",aux->dado.horario);
+
+        gotoxy(44,22);printf("=>");
+        int H;
+    if(aux->dado.local==1){
+            strcpy(horasL1[aux->dado.EditH],horasBASE[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoPalestraHorario(horasL1);//mostra os horarios disponiveis
+            H =PegarHorarioPalestra(horasL1);//pega a posicao da hora
+            strcpy(aux->dado.horario,horasL1[H]);//e guarda essa hora
+            strcpy(horasL1[H],"indis.");//dps transforma ela em indispponivel
+        }
+        if(aux->dado.local==2){//cada palestra pode ocorrer em locais diferentes so que na mesma hora
+            strcpy(horasL2[aux->dado.EditH],horasBASE[aux->dado.EditH]);
+            AvisoEventoPalestraHorario(horasL2);
+            H =PegarHorarioPalestra(horasL2);
+            strcpy(aux->dado.horario,horasL2[H]);
+            strcpy(horasL2[H],"indis.");
+        }
+        if(aux->dado.local==3){
+            strcpy(horasL3[aux->dado.EditH],horasBASE[aux->dado.EditH]);
+            AvisoEventoPalestraHorario(horasL3);
+            H =PegarHorarioPalestra(horasL3);
+            strcpy(aux->dado.horario,horasL3[H]);
+            strcpy(horasL3[H],"indis.");
+        }
+
+
+    gotoxy(39,32);printf("                                                            ");
+}
+
 
 void editarPalestra(LISTA* li, int cadastroINFO){
 
@@ -396,11 +435,12 @@ void editarPalestra(LISTA* li, int cadastroINFO){
                 gotoxy(54,19);scanf("%d",&aux->dado.cargaHoraria);setbuf(stdin,NULL);
 
                 //---------------------------horario
-                gotoxy(46,16);printf("%s =>",aux->dado.horario);
-                gotoxy(55,16);gets(aux->dado.horario);
+
+                EditarHorarioPalestra(aux);
 
 
                 //--------------------------------tema
+                
                 gotoxy(40,25);printf("%s",aux->dado.tema);
                 gotoxy(38,26);printf("=>");
                 gotoxy(40,26);gets(aux->dado.tema);
@@ -424,8 +464,8 @@ void editarPalestra(LISTA* li, int cadastroINFO){
 }
 
 
-
 main(){
+
 
     VcadastrarPalestra();
 
