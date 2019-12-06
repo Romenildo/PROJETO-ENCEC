@@ -10,7 +10,7 @@
 #define C_YELLOW      "\x1b[33m"
 #define C_WATER      "\x1b[36m"
 #define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[37m"
+#define C_WHITE      "\x1b[1m"
 //-------------------END CORES-------------------
 //-------------------FUNCOES---------------------
 gotoxy(int x, int y){
@@ -340,9 +340,9 @@ VcadastrarPalestra(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");
-    gotoxy(16,16);printf("HORARIO");
+    gotoxy(16,16);printf("LOCAL");
     gotoxy(16,19);printf("CARGA HORARIA");
-    gotoxy(16,22);printf("LOCAL");
+    gotoxy(16,22);printf("HORARIO");
     gotoxy(16,25);printf("TEMA");
     gotoxy(16,28);printf("PALESTRANTE");
     gotoxy(16,32);printf("CADASTRO");
@@ -465,27 +465,34 @@ AvisoEventoPalestra(){
     gotoxy(72,22);printf("Avisos xxxxxxxxx");
 
 }
-AvisoEventoPalestraLocais(int limAud1,int limAud2,int limAud3){
+AvisoEventoPalestraLocais(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf(" PALESTRA");
-    gotoxy(80,15);printf(" AVISOS");
     gotoxy(72,17);printf("  Locais disponiveis");
+    gotoxy(80,18);printf("         Capacidade");
 
-    gotoxy(72,19);printf("1-Auditorio 1   %d/150",limAud1);
-    if(limAud1==150){
-        gotoxy(72,19);printf(C_RED"1-Auditorio 1   Cheio"C_WHITE);//caso o limite do auditorio alcançar o maximo  ficara cheio
-    }
-    gotoxy(72,20);printf("2-Auditorio 2   %d/100",limAud2);
-    if(limAud2==100){
-        gotoxy(72,20);printf(C_RED"1-Auditorio 2   Cheio"C_WHITE);
-    }
-    gotoxy(72,21);printf("3-Auditorio 3   %d/50",limAud3);
-    if(limAud3==50){
-        gotoxy(72,20);printf(C_RED"1-Auditorio 3   Cheio"C_WHITE);
+    gotoxy(72,19);printf("1-Auditorio 1       150");
+
+    gotoxy(72,20);printf("2-Auditorio 2       100");
+
+    gotoxy(72,21);printf("3-Auditorio 3        50");
+}
+AvisoEventoPalestraHorario(char horas[7][10]){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
+    Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+
+    gotoxy(72,16);printf("  Horarios disponiveis");
+    int X=81,Y=17;
+    for(int i=1;i<7;i++){
+        gotoxy(X,Y);printf("%d-%s",i,horas[i]);
+        Y++;
+
     }
 
 }
@@ -497,12 +504,12 @@ AvisoEventoLimpar(){
     //mensagens dos avisos irão mudar conforme a opcao escolhida
     gotoxy(79,14);printf(" CADASTRAR");
     gotoxy(80,15);printf(" AVISOS");
-    gotoxy(72,17);printf("                       ");
-    gotoxy(72,18);printf("                       ");
-    gotoxy(72,19);printf("                       ");
-    gotoxy(72,20);printf("                      ");
-    gotoxy(72,21);printf("                        ");
-    gotoxy(72,22);printf("                        ");
+    gotoxy(72,17);printf("                             ");
+    gotoxy(72,18);printf("                             ");
+    gotoxy(72,19);printf("                             ");
+    gotoxy(72,20);printf("                             ");
+    gotoxy(72,21);printf("                             ");
+    gotoxy(72,22);printf("                             ");
 
 }
 
