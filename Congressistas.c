@@ -1,40 +1,13 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include "Congressista.h"
 #include "Visual.h"
 
-//-----------------------CORES----------
-#define C_RESET   "\x1b[0m"
-#define C_BLACK      "\x1b[30m"
-#define C_RED      "\x1b[31m"
-#define C_GREEN      "\x1b[32m"
-#define C_YELLOW      "\x1b[33m"
-#define C_WATER      "\x1b[36m"
-#define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[37m"
-//-------------------END CORES-------------------
 
-typedef struct{
-    int MatriculaC;
-    int idade;
-    char telefone[15];
-    char cpf[15];
-    char curso[30];//ou int local 1laboratorio 2
-    char email[30];
-    char nome[30];
-    int P;
-}EVENTOC;//evento palestras
-
-
-//--------------------------------fila para eventos-----------
-typedef struct capsulaC{
-    EVENTOC dado;
-    struct capsulaC *proximo;
-}CAPSC;
-
-typedef struct{
-    CAPSC *inicio;
-}LISTAC;
+typedef struct eventoc EVENTOC;
+typedef struct capsulaC CAPSC;
+typedef struct listac LISTAC;
 
 LISTAC* CriarC(){
     LISTAC* li=(LISTAC*)malloc(sizeof(LISTAC));
@@ -58,7 +31,8 @@ void liberarC(LISTAC *li){
     }
 }
 void mostrarTodosC(LISTAC* li){
-    //mostrar todos os campeonados cadastrados
+    system("cls");
+    //mostra dados de todos os congressistas
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
     }else{
@@ -67,22 +41,22 @@ void mostrarTodosC(LISTAC* li){
         }else{
             CAPSC* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nMatricula: %d                                       |",aux->dado.MatriculaC);
-                printf("\nIdade: %d",aux->dado.idade);
-                printf("\nTelefone: %s",aux->dado.telefone);
-                printf("\nCPF: %s",aux->dado.cpf);
-                printf("\nCurso: %s",aux->dado.curso);
-                printf("\nEmail: %s",aux->dado.email);
-                printf("\nNome: %s",aux->dado.nome);
-                printf("\n--------------------------------------------\n");
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Matricula: %d   \n",aux->dado.MatriculaC);
+                printf("  Idade: %d       \n",aux->dado.idade);
+                printf("  Telefone: %s    \n",aux->dado.telefone);
+                printf("  CPF: %s         \n",aux->dado.cpf);
+                printf("  Curso: %s       \n",aux->dado.curso);
+                printf("  Email: %s       \n",aux->dado.email);
+                printf("  Nome: %s        \n",aux->dado.nome);
+                PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
         }
     }
 }
-
-int tamanhoLista(LISTAC *li){
+int tamanhoListaC(LISTAC *li){
     if(li==NULL){
         //ERRO
     }else{
@@ -99,7 +73,6 @@ int tamanhoLista(LISTAC *li){
         }
     }
 }
-
 void inserirListaC(LISTAC *li,EVENTOC eC){//insere na ordem de matricula
     if(li==NULL){
         //ERRO
@@ -142,15 +115,15 @@ int mostrarEmRemoverC(CAPSC *aux){
     gotoxy(9,27);printf("EMAIL: %s",aux->dado.email);
     gotoxy(9,28);printf("NOME: %s",aux->dado.nome);
     VdesejaRemover();
-    int op=getch();
-    if(op==1){
+    char op=getch();
+    if(op=='1'){
         return 0;
     }else{
         return 1;
         }
 
 }
-void removerListaC(LISTAC *li,int num){//recebe numero da matricula
+int removerListaC(LISTAC *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -161,10 +134,11 @@ void removerListaC(LISTAC *li,int num){//recebe numero da matricula
             CAPSC *aux=li->inicio;
             if(aux->dado.MatriculaC==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
-                if(mostrarEmRemoverC(aux)){
-                    return;
+                if(mostrarEmRemoverC(aux)==1){
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
                 CAPSC *ante;
                 while((aux!=NULL)&&(aux->dado.MatriculaC!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
@@ -172,24 +146,22 @@ void removerListaC(LISTAC *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
-                if(mostrarEmRemoverC(aux)){//se deseja realmente remover
-                        return;
+                if(mostrarEmRemoverC(aux)==1){//se deseja realmente remover
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
 
 }
+void pegarInfoCongressista(EVENTOC *eC,LISTAC *liC,int MatriculaC){
 
-
-pegarInfoCongressista(EVENTOC *eC,LISTAC *liC,int MatriculaC){
-
-    MatriculaC++;//9000
     gotoxy(27,32);printf("%d",MatriculaC);
     eC->MatriculaC=MatriculaC;
 //------------------------------capacidade
@@ -197,7 +169,6 @@ pegarInfoCongressista(EVENTOC *eC,LISTAC *liC,int MatriculaC){
 
 //-----------------------horario
     gotoxy(40,16);gets(eC->telefone);
-    //deve estar no formato 00:00
 //---------------------------------------carga horaria
     gotoxy(40,19);gets(eC->cpf);
 
@@ -210,8 +181,6 @@ pegarInfoCongressista(EVENTOC *eC,LISTAC *liC,int MatriculaC){
     //verificar se est]ao cadastrados
     gotoxy(40,28);gets(eC->nome);
 }
-
-
 void editarCongressista(LISTAC* li, int matriculaINFO){
 
     if(li !=NULL){
@@ -252,47 +221,10 @@ void editarCongressista(LISTAC* li, int matriculaINFO){
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
     }
 }
 
-
-
-main(){
-    EVENTOC eC;
-    LISTAC *liC= CriarC();
-    int MatriculaC=9000;
-    VcadastrarCongressista();
-    //--------------------
-
-    pegarInfoCongressista(&eC,liC,MatriculaC);
-    inserirListaC(liC,eC);
-    system("cls");
-    mostrarTodosC(liC);
-
-    getchar();//---------------------------------
-    system("cls");
-    int num_editarC;
-    VeditarCongressista();
-    gotoxy(22,17);scanf("%d",&num_editarC);
-    system("cls");
-    editarCongressista(liC,num_editarC);
-    system("cls");
-    //------------------------
-    mostrarTodosC(liC);
-    getchar();
-
-    //remover
-    system("cls");
-    int num_removerC;
-    VremoverCongressista();
-    gotoxy(22,17);scanf("%d",&num_removerC);
-    removerListaC(liC,num_removerC);
-
-    mostrarTodosC(liC);
-
-    liberarC(liC);
-}
