@@ -1,28 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
+#include "Organizador.h"
 #include "Visual.h"
 
-//-----------------------CORES----------
 
-typedef struct{
-    int MatriculaO;
-    char nome[30];
-    char cpf[15];
-    char telefone[15];
-    char email[30];
-}ORGANIZADOR;//evento palestras
+typedef struct organizador ORGANIZADOR;
+typedef struct capsulaO CAPSO;
+typedef struct listaO LISTAO;
 
-
-//--------------------------------fila para eventos-----------
-typedef struct capsulaO{
-    ORGANIZADOR dado;
-    struct capsulaO *proximo;
-}CAPSO;
-
-typedef struct{
-    CAPSO *inicio;
-}LISTAO;
 
 LISTAO* CriarO(){
     LISTAO* li=(LISTAO*)malloc(sizeof(LISTAO));
@@ -46,6 +32,7 @@ void liberarO(LISTAO *li){
     }
 }
 void mostrarTodosO(LISTAO* li){
+    system("cls");
     //mostrar todos os campeonados cadastrados
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
@@ -55,12 +42,13 @@ void mostrarTodosO(LISTAO* li){
         }else{
             CAPSO* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nMatricula: %d                                       |",aux->dado.MatriculaO);
-                printf("\nNome: %s",aux->dado.nome);
-                printf("\nCPF: %s",aux->dado.cpf);
-                printf("\ntelefone: %s",aux->dado.telefone);
-                printf("\nEmail: %s",aux->dado.email);
-                printf("\n--------------------------------------------\n");
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Matricula: %d   \n",aux->dado.MatriculaO);
+                printf("  Nome: %s        \n",aux->dado.nome);
+                printf("  CPF: %s         \n",aux->dado.cpf);
+                printf("  telefone: %s    \n",aux->dado.telefone);
+                printf("  Email: %s       \n",aux->dado.email);
+                PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
@@ -134,7 +122,7 @@ int mostrarEmRemoverO(CAPSO *aux){
         }
 
 }
-void removerListaO(LISTAO *li,int num){//recebe numero da matricula
+int removerListaO(LISTAO *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -146,9 +134,10 @@ void removerListaO(LISTAO *li,int num){//recebe numero da matricula
             if(aux->dado.MatriculaO==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
                 if(mostrarEmRemoverO(aux)){
-                    return;
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
                 CAPSO *ante;
                 while((aux!=NULL)&&(aux->dado.MatriculaO!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
@@ -156,14 +145,15 @@ void removerListaO(LISTAO *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
                 if(mostrarEmRemoverO(aux)){//se deseja realmente remover
-                        return;
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
@@ -171,9 +161,8 @@ void removerListaO(LISTAO *li,int num){//recebe numero da matricula
 }
 
 
-pegarInfoOrganizador(ORGANIZADOR *eO,LISTAO *liO,int MatriculaO){
+void pegarInfoOrganizador(ORGANIZADOR *eO,LISTAO *liO,int MatriculaO){
 
-    MatriculaO++;//9000
     gotoxy(21,29);printf("%d",MatriculaO);
     eO->MatriculaO=MatriculaO;
 
@@ -225,49 +214,10 @@ void editarOrganizador(LISTAO* li, int matriculaINFO){
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
     }
 }
 
-
-
-
-main(){
-
-    ORGANIZADOR eO;
-    LISTAO *liO= CriarO();
-    int MatriculaO=3000;
-    VcadastrarOrganizador();
-    //--------------------
-    //pegar e adicionar na lista
-    pegarInfoOrganizador(&eO,liO,MatriculaO);
-    inserirListaO(liO,eO);
-    system("cls");
-    mostrarTodosO(liO);
-
-    getchar();//-----------editar----------------------
-    system("cls");
-    int num_editarO;
-    VeditarOrganizador();
-    gotoxy(22,17);scanf("%d",&num_editarO);setbuf(stdin,NULL);
-    system("cls");
-    editarOrganizador(liO,num_editarO);
-    system("cls");
-    //------------------------
-    mostrarTodosO(liO);
-    getchar();
-
-    //remover
-    system("cls");
-    int num_removerO;
-    VremoverOrganizador();
-    gotoxy(22,17);scanf("%d",&num_removerO);setbuf(stdin,NULL);
-    removerListaO(liO,num_removerO);
-
-    mostrarTodosO(liO);
-
-    liberarO(liO);
-}
