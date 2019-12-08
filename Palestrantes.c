@@ -1,29 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
+#include "Palestrante.h"
 #include "Visual.h"
-//fazer palestrante agora
-//-----------------------CORES----------
 
-typedef struct{
-    int MatriculapT;
-    char nome[30];
-    char cpf[15];
-    char telefone[15];
-    char email[30];
-    int ocupado;
-}PALESTRANTE;//evento palestras
-
-
-//--------------------------------fila para eventos-----------
-typedef struct capsulapT{
-    PALESTRANTE dado;
-    struct capsulapT *proximo;
-}CAPSpT;
-
-typedef struct{
-    CAPSpT *inicio;
-}LISTApT;
+typedef struct palestrante PALESTRANTE;
+typedef struct capsulapT CAPSpT;
+typedef struct listapT LISTApT;
 
 LISTApT* CriarpT(){
     LISTApT* li=(LISTApT*)malloc(sizeof(LISTApT));
@@ -47,6 +30,7 @@ void liberarpT(LISTApT *li){
     }
 }
 void mostrarTodospT(LISTApT* li){
+    system("cls");
     //mostrar todos os campeonados cadastrados
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
@@ -56,12 +40,13 @@ void mostrarTodospT(LISTApT* li){
         }else{
             CAPSpT* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nMatricula: %d                                       |",aux->dado.MatriculapT);
-                printf("\nNome: %s",aux->dado.nome);
-                printf("\nCPF: %s",aux->dado.cpf);
-                printf("\ntelefone: %s",aux->dado.telefone);
-                printf("\nEmail: %s",aux->dado.email);
-                printf("\n--------------------------------------------\n");
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Matricula: %d     \n",aux->dado.MatriculapT);
+                printf("  Nome: %s          \n",aux->dado.nome);
+                printf("  CPF: %s           \n",aux->dado.cpf);
+                printf("  telefone: %s      \n",aux->dado.telefone);
+                printf("  Email: %s         \n",aux->dado.email);
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
@@ -135,7 +120,7 @@ int mostrarEmRemoverpT(CAPSpT *aux){
         }
 
 }
-void removerListapT(LISTApT *li,int num){//recebe numero da matricula
+int removerListapT(LISTApT *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -147,9 +132,10 @@ void removerListapT(LISTApT *li,int num){//recebe numero da matricula
             if(aux->dado.MatriculapT==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
                 if(mostrarEmRemoverpT(aux)==1){
-                    return;
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
                 CAPSpT *ante;
                 while((aux!=NULL)&&(aux->dado.MatriculapT!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
@@ -157,14 +143,15 @@ void removerListapT(LISTApT *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
                 if(mostrarEmRemoverpT(aux)==1){//se deseja realmente remover
-                        return;
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
@@ -172,9 +159,8 @@ void removerListapT(LISTApT *li,int num){//recebe numero da matricula
 }
 
 
-pegarInfoPalestrante(PALESTRANTE *pT,LISTApT *lipT,int MatriculapT){
+void pegarInfoPalestrante(PALESTRANTE *pT,LISTApT *lipT,int MatriculapT){
 
-    MatriculapT++;//9000
     gotoxy(21,29);printf("%d",MatriculapT);
     pT->MatriculapT=MatriculapT;
 
@@ -228,50 +214,49 @@ void editarPalestrante(LISTApT* li, int matriculaINFO){
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
     }
 }
 
-
-
-
-main(){
-
-    PALESTRANTE pT;
-    LISTApT *lipT= CriarpT();
-    int MatriculapT=7000;
-    VcadastrarPalestrante();
-    //--------------------
-    //pegar e adicionar na lista
-    pegarInfoPalestrante(&pT,lipT,MatriculapT);
-    inserirListapT(lipT,pT);
+char *MostrarPalestrantes(LISTApT* lipT){
     system("cls");
-    mostrarTodospT(lipT);
+    if(lipT !=NULL){
+        CAPSpT* aux=lipT->inicio;
+        int y=3;
+        gotoxy(23,2);printf("  PALESTRANTES DISPONIVEIS");
+        while(aux!=NULL){//varre todos da lista
+            if(aux->dado.ocupado==0){
+                gotoxy(20,y);printf(">> %d  :  %s",aux->dado.MatriculapT,aux->dado.nome);
+                y++;
+            }
 
-    getchar();//-----------editar----------------------
-    system("cls");
-    int num_editarpT;
-    VeditarPalestrante();
-    gotoxy(22,17);scanf("%d",&num_editarpT);setbuf(stdin,NULL);
-    system("cls");
-    editarPalestrante(lipT,num_editarpT);
-    system("cls");
-    //------------------------
-    mostrarTodospT(lipT);
-    getchar();
-
-    //remover
-    system("cls");
-    int num_removerpT;
-    VremoverPalestrante();
-    gotoxy(22,17);scanf("%d",&num_removerpT);setbuf(stdin,NULL);
-    removerListapT(lipT,num_removerpT);
-
-    mostrarTodospT(lipT);
-
-    liberarpT(lipT);
+            aux=aux->proximo;
+        }
+        int Procurar;
+        y=y+2;
+        gotoxy(20,y);printf("DIGITE A MATRICULA: ");scanf("%d",&Procurar);setbuf(stdin,NULL);
+        char *nome=(char*)malloc(sizeof(50));
+        strcpy(nome,retornaPalestrante(lipT,Procurar));
+        return nome;
+    }else{
+        printf("ERRO DE ALOCACAO!!!\n");
+    }
 }
-
+char *retornaPalestrante(LISTApT *li, int Procurar){
+        if(li !=NULL){
+            CAPSpT* aux=li->inicio;
+            while(aux!=NULL){//varre todos da lista
+                if(aux->dado.MatriculapT==Procurar){
+                    char *nome=(char*)malloc(sizeof(50));
+                    strcpy(nome,aux->dado.nome);
+                    aux->dado.ocupado=1;
+                    
+                    return nome;
+                }
+                aux=aux->proximo;
+            }
+        }
+}
