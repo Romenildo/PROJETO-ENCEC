@@ -4,7 +4,7 @@
 #include "Cursos.h"
 #include "Visual.h"
 
-char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char KhorasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 char KhorasS1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};//grupo sala 1
 char KhorasS2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 char KhorasS3[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
@@ -118,8 +118,8 @@ void inserirListaK(LISTAK *li,EVENTOK eK){//insere na ordem de matricula
     }
 }
 int mostrarEmRemoverK(CAPSK *aux){
-    linhaH(50,7,20);linhaV(14,7,20);linhaH(50,7,33);linhaV(14,56,20);
-    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,33,192);Pchar(56,33,217);
+    linhaH(50,7,20);linhaV(12,7,20);linhaH(50,7,31);linhaV(12,56,20);
+    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,31,192);Pchar(56,31,217);
     gotoxy(9,22);printf("CADASTRO: %d",aux->dado.n_cadastroK);
     gotoxy(9,23);printf("CAPACIDADE: %d",aux->dado.capacidade);
     gotoxy(9,24);printf("HORARIO: %s",aux->dado.horario);
@@ -277,7 +277,7 @@ void pegarInfoCurso(EVENTOK *eK,LISTAK *liK,int n_cadastroK){
          if(eK->local==4){
             eK->capacidade =20;
         }
-        if(eK->local==3){
+        if(eK->local==5){
             eK->capacidade =20;
         }
         gotoxy(48,13);printf("   ");
@@ -399,35 +399,35 @@ void EditarHorarioCurso(CAPSK *aux){
         gotoxy(44,22);printf("=>");
         int H;
         if(aux->dado.local==1){
-            strcpy(KhorasS1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            strcpy(KhorasS1[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
             AvisoEventoHorarios(KhorasS1);//mostra os horarios disponiveis
             H =PegarHorarioCurso(KhorasS1);//pega a posicao da hora
             strcpy(aux->dado.horario,KhorasS1[H]);//e guarda essa hora
             strcpy(KhorasS1[H],"indis.");//dps transforma ela em indispponivel
         }
         if(aux->dado.local==2){//cada palestra pode ocorrer em locais diferentes so que na mesma hora
-            strcpy(KhorasS2[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            strcpy(KhorasS2[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);
             AvisoEventoHorarios(KhorasS2);
             H =PegarHorarioCurso(KhorasS2);
             strcpy(aux->dado.horario,KhorasS2[H]);
             strcpy(KhorasS2[H],"indis.");
         }
         if(aux->dado.local==3){
-            strcpy(KhorasS3[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            strcpy(KhorasS3[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);
             AvisoEventoHorarios(KhorasS3);
             H =PegarHorarioCurso(KhorasS3);
             strcpy(aux->dado.horario,KhorasS3[H]);
             strcpy(KhorasS3[H],"indis.");
         }
         if(aux->dado.local==4){
-            strcpy(KhorasL1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            strcpy(KhorasL1[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
             AvisoEventoHorarios(KhorasL1);//mostra os horarios disponiveis
             H =PegarHorarioCurso(KhorasL1);//pega a posicao da hora
             strcpy(aux->dado.horario,KhorasL1[H]);//e guarda essa hora
             strcpy(KhorasL1[H],"indis.");//dps transforma ela em indispponivel
         }
         if(aux->dado.local==5){
-            strcpy(KhorasL2[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            strcpy(KhorasL2[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
             AvisoEventoHorarios(KhorasL2);//mostra os horarios disponiveis
             H =PegarHorarioCurso(KhorasL2);//pega a posicao da hora
             strcpy(aux->dado.horario,KhorasL2[H]);//e guarda essa hora
