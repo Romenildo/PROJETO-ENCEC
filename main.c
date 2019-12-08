@@ -6,6 +6,7 @@
 #include "Congressista.h"
 #include "Palestra.h"
 #include "Grupos.h"
+#include "Cursos.h"
 
 
 //structss
@@ -14,14 +15,15 @@ ORGANIZADOR eO;//organizadores
 PALESTRANTE pT;//palestrantes
 PALESTRA eP;
 EVENTOG gD;
+EVENTOK eK;
 
 
 int MatriculaO=1000;//ORGANIZADORES
 int MatriculaC=2000;//CONGRESSISTAS
 int MatriculapT=3000;//PALESTRANTES
 int MatriculaP=6000;//PALESTRAS
-
 int MatriculaG=7000;//GRUPOS DE DISCUSSAO
+
 int MatriculaK=8000;//CURSO
 int MatriculaOf=9000;//OFICINAS
 
@@ -33,6 +35,7 @@ void menuPrincipal(){
     LISTApT *lipT=CriarpT();
     LISTA *liP=Criar();//palestras
     LISTAG *liG=CriarG();
+    LISTAK *liK=CriarK();
 
     int on=1;
     char op;
@@ -44,7 +47,7 @@ void menuPrincipal(){
         gotoxy(2,33);op=getch();setbuf(stdin,NULL);
         switch(op){
             case '1'://Eventos
-                MENUEVENTOSop(liP,liG);
+                MENUEVENTOSop(liP,liG,liK);
 
                 break;
             case '2'://congressistas
@@ -74,7 +77,7 @@ void menuPrincipal(){
 
 }//fim da funçao
 
-void MENUEVENTOSop(LISTA *liP, LISTA *liG){
+void MENUEVENTOSop(LISTA *liP, LISTAG *liG,LISTAK *liK){
     int onE=1;
     char opE;
 
@@ -92,7 +95,7 @@ void MENUEVENTOSop(LISTA *liP, LISTA *liG){
 
                 break;
             case '3'://cursos
-                MENUCURSOop();
+                MENUCURSOop(liK);
 
                 break;
             case '4'://oficinas
@@ -235,7 +238,7 @@ void MENUGRUPOop(LISTA *liG){
 
 }
 
-void MENUCURSOop(){
+void MENUCURSOop(LISTA *liK){
     int onK=1;
     char opK;
 
@@ -245,17 +248,43 @@ void MENUCURSOop(){
         gotoxy(2,33);opK=getch();setbuf(stdin,NULL);
         switch(opK){
             case '1'://adicionar
+                MatriculaK++;
+                VcadastrarCurso();
+                pegarInfoCurso(&eK,liK,MatriculaK);
+                inserirListaK(liK,eK);
 
+                AvisoADDsucesso();
                 break;
             case '2'://listar
+                if(tamanhoListaK(liK)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    mostrarTodosK(liK);
+                    getchar();
+                }
 
 
                 break;
             case '3'://remover
+                if(tamanhoListaK(liK)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    int num_removerK;
+                    VremoverCurso();
+                    gotoxy(22,17);scanf("%d",&num_removerK);setbuf(stdin,NULL);
+                    removerListaK(liK,num_removerK);
+                }
 
                 break;
             case '4'://editar
-
+                if(tamanhoListaK(liK)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    int num_editarK;
+                    VeditarCurso();
+                    gotoxy(22,17);scanf("%d",&num_editarK);setbuf(stdin,NULL);
+                    editarCurso(liK,num_editarK);
+                }
 
                 break;
             case '5'://voltar
@@ -446,7 +475,7 @@ void ORGANIZADORESop(LISTAO *liO){
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaO(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodosO(liO);
@@ -454,7 +483,7 @@ void ORGANIZADORESop(LISTAO *liO){
                 }
                 break;
             case '3'://remover
-                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaO(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerO;
@@ -465,7 +494,7 @@ void ORGANIZADORESop(LISTAO *liO){
                 }
                 break;
             case '4'://editar
-                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaO(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarO;
