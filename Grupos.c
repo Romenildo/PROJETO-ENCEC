@@ -1,53 +1,29 @@
-#include<stdio.h>
-#include<stdlib.h>//grupos
-#include<windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include "Grupos.h"
 #include "Visual.h"
-    char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char GhorasS1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char GhorasS2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char GhorasS3[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 
+char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char GhorasS1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};//grupo sala 1
+char GhorasS2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char GhorasS3[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char GhorasL1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char GhorasL2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 
-#define C_BLACK      "\x1b[30m"
-#define C_RED      "\x1b[31m"
-#define C_GREEN      "\x1b[32m"
-#define C_YELLOW      "\x1b[33m"
-#define C_WATER      "\x1b[36m"
-#define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[1m"
-//CURSO
-typedef struct{
-    int n_cadastroG;
-    int capacidade;
-    char horario[5];
-    int cargaHoraria;
-    int local;//ou int local 1laboratorio 2
-    char tema[30];
-    int Qpalestrantes;
-    char palestrantes[5][30];
-    int EditG;
-}EVENTOG;//evento palestras
-
-
-//--------------------------------fila para eventos-----------
-typedef struct capsulaG{
-    EVENTOG dado;
-    struct capsulaG *proximo;
-}CAPSG;
-
-typedef struct{
-    CAPSG *inicio;
-}LISTAG;
+typedef struct eventoG EVENTOG;
+typedef struct capsulaG CAPSG;
+typedef struct listaG LISTAG;
 
 LISTAG* CriarG(){
-    LISTAG* liG=(LISTAG*)malloc(sizeof(LISTAG));
-    if(liG!=NULL){
-        liG->inicio=NULL;
+    LISTAG* li=(LISTAG*)malloc(sizeof(LISTAG));
+    if(li!=NULL){
+        li->inicio=NULL;
     }
-    return liG;
+    return li;
 
 }
-void liberar(LISTAG *li){
+void liberarG(LISTAG *li){
     if(li==NULL){
         //ERRO
     }else{
@@ -61,6 +37,7 @@ void liberar(LISTAG *li){
     }
 }
 void mostrarTodosG(LISTAG* li){
+    system("cls");
     //mostrar todos os campeonados cadastrados
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
@@ -70,24 +47,33 @@ void mostrarTodosG(LISTAG* li){
         }else{
             CAPSG* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nCadastro: %d                                       |",aux->dado.n_cadastroG);
-                printf("\nHorario: %s",aux->dado.horario);
-                printf("\nCarga horaria: %d",aux->dado.cargaHoraria);
-                printf("\nlocal: Auditorio %d",aux->dado.local);
-                printf("\nCapacidade: %d",aux->dado.capacidade);
-                printf("\n\nTema: %s",aux->dado.tema);
-                for(int i=0;i<aux->dado.Qpalestrantes;i++){
-                    printf("\nPalestrantes: %s",aux->dado.palestrantes[i]);
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Cadastro: %d        \n",aux->dado.n_cadastroG);
+                printf("  Horario: %s         \n",aux->dado.horario);
+                printf("  Carga horaria: %d   \n",aux->dado.cargaHoraria);
+                if(aux->dado.local==4){
+                    printf("  local: Lab 1 \n");
+                }else{
+                    if(aux->dado.local==5){
+                        printf("  local: Lab 2 \n");
+                    }else{
+                        printf("  local: Sala %d \n",aux->dado.local);
+                    }
                 }
-                printf("\n--------------------------------------------\n");
+                printf("  Capacidade: %d      \n",aux->dado.capacidade);
+                printf("  Tema: %s            \n",aux->dado.tema);
+                for(int i=0;i<aux->dado.Qpalestrantes;i++){
+                    printf("  Palestrante %d: %s     \n",i+1,aux->dado.palestrante[i]);
+                }
+
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
         }
     }
 }
-
-int tamanhoLista(LISTAG *li){
+int tamanhoListaG(LISTAG *li){
     if(li==NULL){
         //ERRO
     }else{
@@ -104,7 +90,6 @@ int tamanhoLista(LISTAG *li){
         }
     }
 }
-
 void inserirListaG(LISTAG *li,EVENTOG gD){//insere na ordem de matricula
     if(li==NULL){
         //ERRO
@@ -129,25 +114,33 @@ void inserirListaG(LISTAG *li,EVENTOG gD){//insere na ordem de matricula
                     ante->proximo=novo;//o numeros menor que o novo ira apontar para o novo
                     novo->proximo=aux;// aponta para o aux que era o proximo maior que ele
                 }
-
             }
-
         }
     }
-
 }
 int mostrarEmRemoverG(CAPSG *aux){
-    linhaH(50,7,20);linhaV(12,7,20);linhaH(50,7,31);linhaV(12,56,20);
-    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,31,192);Pchar(56,31,217);
+    linhaH(50,7,20);linhaV(14,7,20);linhaH(50,7,33);linhaV(14,56,20);
+    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,33,192);Pchar(56,33,217);
     gotoxy(9,22);printf("CADASTRO: %d",aux->dado.n_cadastroG);
     gotoxy(9,23);printf("CAPACIDADE: %d",aux->dado.capacidade);
     gotoxy(9,24);printf("HORARIO: %s",aux->dado.horario);
     gotoxy(9,25);printf("CARGA HORARIA: %d",aux->dado.cargaHoraria);
-    gotoxy(9,26);printf("LOCAL: Sala %d",aux->dado.local);
-    gotoxy(9,27);printf("TEMA: %s",aux->dado.tema);
-    for(int y=28,i=0;i<aux->dado.Qpalestrantes;i++,y++){
-        gotoxy(9,y);printf("PALESTRANTEs: %s",aux->dado.palestrantes[i]);
+    if(aux->dado.local==4){
+        gotoxy(9,26);printf("LOCAL: Lab 1");
+    }else{
+        if(aux->dado.local==5){
+            gotoxy(9,26);printf("LOCAL: Lab 2 ");
+        }else{
+            gotoxy(9,26);printf("LOCAL: Sala %d",aux->dado.local);
+        }
     }
+
+    gotoxy(9,27);printf("TEMA: %s",aux->dado.tema);
+    for(int y=28,i=0;i<aux->dado.Qpalestrantes;i++){
+        gotoxy(9,y);printf("PALESTRANTE %d: %s",i+1,aux->dado.palestrante[i]);
+        y++;
+    }
+
     VdesejaRemover();
     int op=getch();
     if(op==1){
@@ -155,9 +148,8 @@ int mostrarEmRemoverG(CAPSG *aux){
     }else{
         return 1;
         }
-
 }
-void removerListaG(LISTAG *li,int num){//recebe numero da matricula
+int removerListaG(LISTAG *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -169,9 +161,10 @@ void removerListaG(LISTAG *li,int num){//recebe numero da matricula
             if(aux->dado.n_cadastroG==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
                 if(mostrarEmRemoverG(aux)){
-                    return;
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
                 CAPSG *ante;
                 while((aux!=NULL)&&(aux->dado.n_cadastroG!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
@@ -179,26 +172,25 @@ void removerListaG(LISTAG *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
                 if(mostrarEmRemoverG(aux)){//se deseja realmente remover
-                        return;
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
-
 }
-
 int PegarLocalGrupo(){
     //transforma a opcao local 1,2,3 em uma string
     int local;
     int on=1;
     while(on){
-        gotoxy(42,17);printf("[Entre 1-3]");
+        gotoxy(42,17);printf("[Entre 1-5]");
         gotoxy(46,16);scanf("%d",&local);setbuf(stdin,NULL);
 
         switch(local){
@@ -212,11 +204,18 @@ int PegarLocalGrupo(){
                 break;
             case 3:
                 gotoxy(42,16);printf("Sala 3");
-
+                on=0;
+                break;
+            case 4:
+                gotoxy(42,16);printf("Lab 1  ");
+                on=0;
+                break;
+            case 5:
+                gotoxy(42,16);printf("Lab 2  ");
                 on=0;
                 break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
@@ -225,8 +224,7 @@ int PegarLocalGrupo(){
     gotoxy(42,17);printf("             ");
     return local;
 }
-
-int PegarHorarioCurso(char horas[7][10]){
+int PegarHorarioGrupo(char horas[7][10]){
 
     int hora;
     int on=1;
@@ -253,26 +251,41 @@ int PegarHorarioCurso(char horas[7][10]){
                 gotoxy(46,22);printf("%s",horas[hora]);
                 return hora;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
     }
     gotoxy(39,32);printf("                                                            ");
 }
+void pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG){
 
-pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG){
-
-    n_cadastroG++;//1000
     gotoxy(27,32);printf("%d",n_cadastroG);
     gD->n_cadastroG=n_cadastroG;
 //------------------------------capacidade
-    gD->capacidade = 50;
-    gotoxy(48,13);printf("%d",gD->capacidade);setbuf(stdin,NULL);
+    gotoxy(48,13);printf("---");
 //-----------------------local
     AvisoEventoLimpar();
-    AvisoEventoCursoLocais();
+    AvisoEventoLocais();
     gD->local=PegarLocalGrupo();//eP->local
+    //capacidade dependendo do local
+        if(gD->local==1){
+            gD->capacidade =50;
+        }
+        if(gD->local==2){
+            gD->capacidade =50;
+        }
+        if(gD->local==3){
+            gD->capacidade =50;
+        }
+         if(gD->local==4){
+            gD->capacidade =20;
+        }
+        if(gD->local==3){
+            gD->capacidade =20;
+        }
+        gotoxy(48,13);printf("   ");
+        gotoxy(48,13);printf("%d",gD->capacidade);setbuf(stdin,NULL);
 
 
 
@@ -284,44 +297,61 @@ pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG){
 
     int H;
     if(gD->local==1){
-            AvisoEventoCursoHorario(GhorasS1);
-            H =PegarHorarioCurso(GhorasS1);
+            AvisoEventoHorarios(GhorasS1);
+            H =PegarHorarioGrupo(GhorasS1);
             strcpy(gD->horario,GhorasS1[H]);
             strcpy(GhorasS1[H],"indis.");
         }
         if(gD->local==2){
-            AvisoEventoCursoHorario(GhorasS2);
-            H =PegarHorarioCurso(GhorasS2);
+            AvisoEventoHorarios(GhorasS2);
+            H =PegarHorarioGrupo(GhorasS2);
             strcpy(gD->horario,GhorasS2[H]);
             strcpy(GhorasS2[H],"indis.");
         }
         if(gD->local==3){
-            AvisoEventoCursoHorario(GhorasS3);
-            H =PegarHorarioCurso(GhorasS3);
+            AvisoEventoHorarios(GhorasS3);
+            H =PegarHorarioGrupo(GhorasS3);
             strcpy(gD->horario,GhorasS3[H]);
             strcpy(GhorasS3[H],"indis.");
         }
-        gD->EditG=H;//guardar a posição no vetor para quando for editar
+        if(gD->local==4){
+            AvisoEventoHorarios(GhorasL1);
+            H =PegarHorarioGrupo(GhorasL1);
+            strcpy(gD->horario,GhorasL1[H]);
+            strcpy(GhorasL1[H],"indis.");
+        }
+        if(gD->local==5){
+            AvisoEventoHorarios(GhorasL2);
+            H =PegarHorarioGrupo(GhorasL2);
+            strcpy(gD->horario,GhorasL2[H]);
+            strcpy(GhorasL2[H],"indis.");
+        }
+        gD->EditH=H;//guardar a posição no vetor para quando for editar
 
 
 
 //--------------------------------tema
     AvisoEventoLimpar();
     gotoxy(40,25);gets(gD->tema);setbuf(stdin,NULL);
+    //uantidade palestrantes
 
-//------------------------quantidade palestrantes
     gotoxy(94,25);scanf("%d",&gD->Qpalestrantes);setbuf(stdin,NULL);
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
-    gotoxy(40,28);gets(gD->palestrantes[1]);setbuf(stdin,NULL);//fazer a parade ir escrevendo varios
+    for(int y2=28,y=28,i=0;i<gD->Qpalestrantes;i++){
+        if((i==3)||(i==4)){
+            gotoxy(70,y2);gets(gD->palestrante[i]);setbuf(stdin,NULL);
+            y2++;
+        }else{
+            gotoxy(40,y);gets(gD->palestrante[i]);setbuf(stdin,NULL);
+            y++;
+        }
+
+    }
+
         //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
 }
-//verificarPalestrante(PALESTRANTES *p, char palestrante){
-                //verificar os palestrantes cadastrados com os digitados
-                //se nao encontrar pedir pra digitar novamente e mostra mensagem de erro
-
-
-EditarLocalGrupo(CAPSG *aux){
+void EditarLocalGrupo(CAPSG *aux){
     //transforma a opcao local 1,2,3 em uma string
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
@@ -333,6 +363,12 @@ EditarLocalGrupo(CAPSG *aux){
     }
     if(aux->dado.local==3){
         gotoxy(42,16);printf("Sala 3");
+    }
+    if(aux->dado.local==4){
+        gotoxy(42,16);printf("Lab 1 ");
+    }
+    if(aux->dado.local==5){
+        gotoxy(42,16);printf("Lab 2 ");
     }
     int on=1;
     while(on){
@@ -352,16 +388,23 @@ EditarLocalGrupo(CAPSG *aux){
                 gotoxy(40,17);printf("=>Sala 3");
                 on=0;
                 break;
+            case 4:
+                gotoxy(40,17);printf("=>Lab 1");
+                on=0;
+                break;
+            case 5:
+                gotoxy(40,17);printf("=>Lab 2");
+                on=0;
+                break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
     }
     gotoxy(39,32);printf("                                                            ");
 }
-
-EditarHorarioGrupo(CAPSG *aux){
+void EditarHorarioGrupo(CAPSG *aux){
     //transforma a opcao local 1,2,3 em uma string
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
@@ -369,35 +412,46 @@ EditarHorarioGrupo(CAPSG *aux){
 
         gotoxy(44,22);printf("=>");
         int H;
-    if(aux->dado.local==1){
-            strcpy(GhorasS1[aux->dado.EditG],horasTarde[aux->dado.EditG]);//tira o que ja tava como indisponivel e coloca o base
-            AvisoEventoCursoHorario(GhorasS1);//mostra os horarios disponiveis
-            H =PegarHorarioCurso(GhorasS1);//pega a posicao da hora
+        if(aux->dado.local==1){
+            strcpy(GhorasS1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(GhorasS1);//mostra os horarios disponiveis
+            H =PegarHorarioGrupo(GhorasS1);//pega a posicao da hora
             strcpy(aux->dado.horario,GhorasS1[H]);//e guarda essa hora
             strcpy(GhorasS1[H],"indis.");//dps transforma ela em indispponivel
         }
         if(aux->dado.local==2){//cada palestra pode ocorrer em locais diferentes so que na mesma hora
-            strcpy(GhorasS2[aux->dado.EditG],horasTarde[aux->dado.EditG]);
-            AvisoEventoCursoHorario(GhorasS2);
-            H =PegarHorarioCurso(GhorasS2);
+            strcpy(GhorasS2[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            AvisoEventoHorarios(GhorasS2);
+            H =PegarHorarioGrupo(GhorasS2);
             strcpy(aux->dado.horario,GhorasS2[H]);
             strcpy(GhorasS2[H],"indis.");
         }
         if(aux->dado.local==3){
-            strcpy(GhorasS3[aux->dado.EditG],horasTarde[aux->dado.EditG]);
-            AvisoEventoCursoHorario(GhorasS3);
-            H =PegarHorarioCurso(GhorasS3);
+            strcpy(GhorasS3[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            AvisoEventoHorarios(GhorasS3);
+            H =PegarHorarioGrupo(GhorasS3);
             strcpy(aux->dado.horario,GhorasS3[H]);
             strcpy(GhorasS3[H],"indis.");
+        }
+        if(aux->dado.local==4){
+            strcpy(GhorasL1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(GhorasL1);//mostra os horarios disponiveis
+            H =PegarHorarioGrupo(GhorasL1);//pega a posicao da hora
+            strcpy(aux->dado.horario,GhorasL1[H]);//e guarda essa hora
+            strcpy(GhorasL1[H],"indis.");//dps transforma ela em indispponivel
+        }
+        if(aux->dado.local==5){
+            strcpy(GhorasL2[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(GhorasL2);//mostra os horarios disponiveis
+            H =PegarHorarioGrupo(GhorasL2);//pega a posicao da hora
+            strcpy(aux->dado.horario,GhorasL2[H]);//e guarda essa hora
+            strcpy(GhorasL2[H],"indis.");//dps transforma ela em indispponivel
         }
 
 
     gotoxy(39,32);printf("                                                            ");
 }
-
-
 void editarGrupo(LISTAG* li, int cadastroINFO){
-
     if(li !=NULL){
         CAPSG* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
@@ -405,12 +459,30 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
                 VcadastrarGrupos();
                 gotoxy(27,32);printf("%d",aux->dado.n_cadastroG);
                 //------------------------------capacidade
-                gotoxy(48,13);printf("  %d",aux->dado.capacidade);setbuf(stdin,NULL);
+                gotoxy(48,13);printf("%d =>---",aux->dado.capacidade);setbuf(stdin,NULL);
 
                 //-----------------------local
                 AvisoEventoLimpar();
-                AvisoEventoCursoLocais();
+                AvisoEventoLocais();
                 EditarLocalGrupo(aux);
+                //capacidade
+                if(aux->dado.local==1){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==2){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==3){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==4){
+                    aux->dado.capacidade =20;
+                }
+                if(aux->dado.local==5){
+                    aux->dado.capacidade =20;
+                }
+                gotoxy(54,13);printf("   ");
+                gotoxy(54,13);printf(" %d",aux->dado.capacidade);
                 AvisoEventoLimpar();
 
 
@@ -421,7 +493,6 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
                 //---------------------------horario
 
                 EditarHorarioGrupo(aux);
-                AvisoEventoLimpar();
 
 
                 //--------------------------------tema
@@ -429,15 +500,15 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
                 gotoxy(40,25);printf("%s",aux->dado.tema);
                 gotoxy(38,26);printf("=>");
                 gotoxy(40,26);gets(aux->dado.tema);setbuf(stdin,NULL);
-                //------------quant palestrantes
+                //-----------------------------palestrantes
+                //quantidade
                 gotoxy(94,25);printf("%d",aux->dado.Qpalestrantes);
                 gotoxy(92,26);printf("=>");
                 gotoxy(94,26);scanf("%d",&aux->dado.Qpalestrantes);setbuf(stdin,NULL);
-                //-----------------------------palestrantes
                 //verificar se est]ao cadastrados
-                gotoxy(77,25);printf("%s",aux->dado.palestrantes[1]);
+                gotoxy(40,28);printf("%s",aux->dado.palestrante[0]);
                 gotoxy(38,29);printf("=>");
-                gotoxy(40,29);gets(aux->dado.palestrantes[1]);
+                gotoxy(40,29);gets(aux->dado.palestrante[0]);
 
                 VeditadoComSucesso();
                 return;
@@ -445,7 +516,7 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
@@ -453,42 +524,3 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
 }
 
 
-main(){
-
-
-    VcadastrarGrupos();
-
-    EVENTOG gD;
-    LISTAG *liG=CriarG();
-    int n_cadastroG=5000;
-
-    pegarInfoGrupo(&gD,liG,n_cadastroG);
-    inserirListaG(liG,gD);
-    //mostrar todos
-    //
-    system("cls");
-    int num_editarG;
-    VeditarGrupo();
-    gotoxy(22,17);scanf("%d",&num_editarG);
-    system("cls");
-    editarGrupo(liG,num_editarG);
-    //
-    system("cls");
-    mostrarTodosG(liG);
-    getchar();
-    //remover
-    system("cls");
-    int num_removerG;
-    VremoverGrupo();
-    gotoxy(22,17);scanf("%d",&num_removerG);
-    removerListaG(liG,num_removerG);
-//editar
-
-
-    liberar(liG);
-}
-
-
-
-
-//para rodar basta colocar no projeto com visual
