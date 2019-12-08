@@ -5,6 +5,7 @@
 #include "Palestrante.h"
 #include "Congressista.h"
 #include "Palestra.h"
+#include "Grupos.h"
 
 
 //structss
@@ -12,6 +13,7 @@ EVENTOC eC;//congressistas
 ORGANIZADOR eO;//organizadores
 PALESTRANTE pT;//palestrantes
 PALESTRA eP;
+EVENTOG gD;
 
 
 int MatriculaO=1000;//ORGANIZADORES
@@ -30,6 +32,7 @@ void menuPrincipal(){
     LISTAO *liO=CriarO();
     LISTApT *lipT=CriarpT();
     LISTA *liP=Criar();//palestras
+    LISTAG *liG=CriarG();
 
     int on=1;
     char op;
@@ -41,7 +44,7 @@ void menuPrincipal(){
         gotoxy(2,33);op=getch();setbuf(stdin,NULL);
         switch(op){
             case '1'://Eventos
-                MENUEVENTOSop(liP);
+                MENUEVENTOSop(liP,liG);
 
                 break;
             case '2'://congressistas
@@ -71,7 +74,7 @@ void menuPrincipal(){
 
 }//fim da funçao
 
-void MENUEVENTOSop(LISTA *liP){
+void MENUEVENTOSop(LISTA *liP, LISTA *liG){
     int onE=1;
     char opE;
 
@@ -85,7 +88,7 @@ void MENUEVENTOSop(LISTA *liP){
 
                 break;
             case '2'://grupos de discussoes
-                MENUGRUPOop();
+                MENUGRUPOop(liG);
 
                 break;
             case '3'://cursos
@@ -171,8 +174,8 @@ void MENUPALESTRAop(LISTA *liP){
 
 }
 
-void MENUGRUPOop(){
-   /* int onG=1;
+void MENUGRUPOop(LISTA *liG){
+    int onG=1;
     char opG;
 
     while(onG){
@@ -183,13 +186,13 @@ void MENUGRUPOop(){
             case '1'://adicionar
                 MatriculaG++;
                 VcadastrarGrupos();
-                pegarInfoGrupos(&gD,liG,MatriculaG);
+                pegarInfoGrupo(&gD,liG,MatriculaG);
                 inserirListaG(liG,gD);
 
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaG(liG)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodosG(liG);
@@ -198,24 +201,24 @@ void MENUGRUPOop(){
 
                 break;
             case '3'://remover
-                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaG(liG)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerG;
-                    VremoverGrupos();
+                    VremoverGrupo();
                     gotoxy(22,17);scanf("%d",&num_removerG);setbuf(stdin,NULL);
                     removerListaG(liG,num_removerG);
                 }
 
                 break;
             case '4'://editar
-                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoListaG(liG)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarG;
-                    VeditarGrupos();
+                    VeditarGrupo();
                     gotoxy(22,17);scanf("%d",&num_editarG);setbuf(stdin,NULL);
-                    editarGrupo(liP,num_editarG);
+                    editarGrupo(liG,num_editarG);
                 }
 
                 break;
@@ -230,7 +233,6 @@ void MENUGRUPOop(){
 
     }//fim do while
 
-*/
 }
 
 void MENUCURSOop(){
