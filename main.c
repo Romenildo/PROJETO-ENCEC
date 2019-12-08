@@ -5,20 +5,23 @@
 #include "Palestrante.h"
 #include "Congressista.h"
 #include "Palestra.h"
+
+
 //structss
 EVENTOC eC;//congressistas
 ORGANIZADOR eO;//organizadores
 PALESTRANTE pT;//palestrantes
 PALESTRA eP;
 
-//listas---
 
-
-//matriculas
 int MatriculaO=1000;//ORGANIZADORES
 int MatriculaC=2000;//CONGRESSISTAS
 int MatriculapT=3000;//PALESTRANTES
 int MatriculaP=6000;//PALESTRAS
+
+int MatriculaG=7000;//GRUPOS DE DISCUSSAO
+int MatriculaK=8000;//CURSO
+int MatriculaOf=9000;//OFICINAS
 
 
 
@@ -26,7 +29,7 @@ void menuPrincipal(){
     LISTAC *liC=CriarC();
     LISTAO *liO=CriarO();
     LISTApT *lipT=CriarpT();
-    LISTA *liP=Criar();
+    LISTA *liP=Criar();//palestras
 
     int on=1;
     char op;
@@ -69,7 +72,6 @@ void menuPrincipal(){
 }//fim da funçao
 
 void MENUEVENTOSop(LISTA *liP){
-
     int onE=1;
     char opE;
 
@@ -83,15 +85,15 @@ void MENUEVENTOSop(LISTA *liP){
 
                 break;
             case '2'://grupos de discussoes
-
+                MENUGRUPOop();
 
                 break;
             case '3'://cursos
-
+                MENUCURSOop();
 
                 break;
             case '4'://oficinas
-
+                MENUOFICINAop();
 
                 break;
             case '5'://voltar
@@ -126,7 +128,7 @@ void MENUPALESTRAop(LISTA *liP){
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                 if(MatriculaC==6000){//Caso nenhum tenha sido cadastrado ainda
+                 if(tamanhoLista(liP)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodosP(liP);
@@ -135,29 +137,24 @@ void MENUPALESTRAop(LISTA *liP){
 
                 break;
             case '3'://remover
-                if(MatriculaP==6000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liP)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerP;
                     VremoverPalestra();
                     gotoxy(22,17);scanf("%d",&num_removerP);setbuf(stdin,NULL);
-                    if(removerLista(liP,num_removerP)){
-                        //caso nao remova
-                    }else{
-                        MatriculaP--;
-                    }
-
+                    removerLista(liP,num_removerP);
                 }
 
                 break;
             case '4'://editar
-                if(MatriculaP==6000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liP)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarP;
                     VeditarPalestra();
                     gotoxy(22,17);scanf("%d",&num_editarP);setbuf(stdin,NULL);
-                    editarCongressista(liP,num_editarP);
+                    editarPalestra(liP,num_editarP);
                 }
 
                 break;
@@ -173,6 +170,140 @@ void MENUPALESTRAop(LISTA *liP){
     }//fim do while
 
 }
+
+void MENUGRUPOop(){
+   /* int onG=1;
+    char opG;
+
+    while(onG){
+        limparTela();
+        VopcoesGrupos();
+        gotoxy(2,33);opG=getch();setbuf(stdin,NULL);
+        switch(opG){
+            case '1'://adicionar
+                MatriculaG++;
+                VcadastrarGrupos();
+                pegarInfoGrupos(&gD,liG,MatriculaG);
+                inserirListaG(liG,gD);
+
+                AvisoADDsucesso();
+                break;
+            case '2'://listar
+                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    mostrarTodosG(liG);
+                    getchar();
+                }
+
+                break;
+            case '3'://remover
+                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    int num_removerG;
+                    VremoverGrupos();
+                    gotoxy(22,17);scanf("%d",&num_removerG);setbuf(stdin,NULL);
+                    removerListaG(liG,num_removerG);
+                }
+
+                break;
+            case '4'://editar
+                if(tamanhoLista(liG)==0){//Caso nenhum tenha sido cadastrado ainda
+                    AvisoVAZIO();
+                }else{
+                    int num_editarG;
+                    VeditarGrupos();
+                    gotoxy(22,17);scanf("%d",&num_editarG);setbuf(stdin,NULL);
+                    editarGrupo(liP,num_editarG);
+                }
+
+                break;
+            case '5'://voltar
+                onG=0;
+                break;
+            default:
+                AvisoOPinvalida();//caso tenha digitado um que n tenha nas opcoes
+                break;
+        }//fim do switch
+
+
+    }//fim do while
+
+*/
+}
+
+void MENUCURSOop(){
+    int onK=1;
+    char opK;
+
+    while(onK){
+        limparTela();
+        VopcoesCursos();
+        gotoxy(2,33);opK=getch();setbuf(stdin,NULL);
+        switch(opK){
+            case '1'://adicionar
+
+                break;
+            case '2'://listar
+
+
+                break;
+            case '3'://remover
+
+                break;
+            case '4'://editar
+
+
+                break;
+            case '5'://voltar
+                onK=0;
+                break;
+            default:
+                AvisoOPinvalida();//caso tenha digitado um que n tenha nas opcoes
+                break;
+        }//fim do switch
+
+
+    }//fim do while
+}
+
+void MENUOFICINAop(){
+    int onOf=1;
+    char opOf;
+
+    while(onOf){
+        limparTela();
+        VopcoesOficinas();
+        gotoxy(2,33);opOf=getch();setbuf(stdin,NULL);
+        switch(opOf){
+            case '1'://adicionar
+
+                break;
+            case '2'://listar
+
+
+                break;
+            case '3'://remover
+
+                break;
+            case '4'://editar
+
+
+                break;
+            case '5'://voltar
+                onOf=0;
+                break;
+            default:
+                AvisoOPinvalida();//caso tenha digitado um que n tenha nas opcoes
+                break;
+        }//fim do switch
+
+
+    }//fim do while
+
+}
+
 void CONGRESSISTAop(LISTAC *liC){
 
     int onC=1;
@@ -191,7 +322,7 @@ void CONGRESSISTAop(LISTAC *liC){
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                if(MatriculaC==2000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liC)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodosC(liC);
@@ -199,22 +330,18 @@ void CONGRESSISTAop(LISTAC *liC){
                 }
                 break;
             case '3'://remover
-                if(MatriculaC==2000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liC)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerC;
                     VremoverCongressista();
                     gotoxy(22,17);scanf("%d",&num_removerC);setbuf(stdin,NULL);
-                    if(removerListaC(liC,num_removerC)){
-                        //caso nao remova
-                    }else{
-                        MatriculaC--;
-                    }
+                    removerListaC(liC,num_removerC);
 
                 }
                 break;
             case '4'://editar
-                if(MatriculaC==2000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liC)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarC;
@@ -257,7 +384,7 @@ void PALESTRANTESop(LISTApT *lipT){
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                if(MatriculapT==3000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(lipT)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodospT(lipT);
@@ -265,22 +392,17 @@ void PALESTRANTESop(LISTApT *lipT){
                 }
                 break;
             case '3'://remover
-                if(MatriculapT==3000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(lipT)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerpT;
                     VremoverPalestrante();
                     gotoxy(22,17);scanf("%d",&num_removerpT);setbuf(stdin,NULL);
-                    if(removerListapT(lipT,num_removerpT)){
-                        //caso nao remova
-                    }else{
-                        MatriculapT--;
-                    }
-
+                    removerListapT(lipT,num_removerpT);
                 }
                 break;
             case '4'://editar
-                if(MatriculapT==3000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(lipT)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarpT;
@@ -322,7 +444,7 @@ void ORGANIZADORESop(LISTAO *liO){
                 AvisoADDsucesso();
                 break;
             case '2'://listar
-                if(MatriculaO==1000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     mostrarTodosO(liO);
@@ -330,22 +452,18 @@ void ORGANIZADORESop(LISTAO *liO){
                 }
                 break;
             case '3'://remover
-                if(MatriculaO==1000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_removerO;
                     VremoverOrganizador();
                     gotoxy(22,17);scanf("%d",&num_removerO);setbuf(stdin,NULL);
-                    if(removerListaO(liO,num_removerO)){
-                        //caso nao remova
-                    }else{
-                        MatriculaO--;
-                    }
+                    removerListaO(liO,num_removerO);
 
                 }
                 break;
             case '4'://editar
-                if(MatriculaO==1000){//Caso nenhum tenha sido cadastrado ainda
+                if(tamanhoLista(liO)==0){//Caso nenhum tenha sido cadastrado ainda
                     AvisoVAZIO();
                 }else{
                     int num_editarO;
