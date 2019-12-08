@@ -1,56 +1,33 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include "Cursos.h"
 #include "Visual.h"
-    char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char horasS1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char horasS2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
-    char horasS3[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 
+char horasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char KhorasS1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};//grupo sala 1
+char KhorasS2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char KhorasS3[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char KhorasL1[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
+char KhorasL2[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
 
-#define C_BLACK      "\x1b[30m"
-#define C_RED      "\x1b[31m"
-#define C_GREEN      "\x1b[32m"
-#define C_YELLOW      "\x1b[33m"
-#define C_WATER      "\x1b[36m"
-#define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[1m"
-//CURSO
-typedef struct{
-    int n_cadastrocU;
-    int capacidade;
-    char horario[5];
-    int cargaHoraria;
-    int local;//ou int local 1laboratorio 2
-    char tema[30];
-    char palestrante[30];
-    int EditcU;
-}EVENTOcU;//evento palestras
+typedef struct eventoK EVENTOK;
+typedef struct capsulaK CAPSK;
+typedef struct listaK LISTAK;
 
-
-//--------------------------------fila para eventos-----------
-typedef struct capsulacU{
-    EVENTOcU dado;
-    struct capsulacU *proximo;
-}CAPScU;
-
-typedef struct{
-    CAPScU *inicio;
-}LISTAcU;
-
-LISTAcU* CriarcU(){
-    LISTAcU* licU=(LISTAcU*)malloc(sizeof(LISTAcU));
-    if(licU!=NULL){
-        licU->inicio=NULL;
+LISTAK* CriarK(){
+    LISTAK* li=(LISTAK*)malloc(sizeof(LISTAK));
+    if(li!=NULL){
+        li->inicio=NULL;
     }
-    return licU;
+    return li;
 
 }
-void liberar(LISTAcU *li){
+void liberarK(LISTAK *li){
     if(li==NULL){
         //ERRO
     }else{
-        CAPScU *aux;
+        CAPSK *aux;
         while(li->inicio!=NULL){
             aux=li->inicio;
             li->inicio=li->inicio->proximo;
@@ -59,7 +36,8 @@ void liberar(LISTAcU *li){
         free(li);
     }
 }
-void mostrarTodoscU(LISTAcU* li){
+void mostrarTodosK(LISTAK* li){
+    system("cls");
     //mostrar todos os campeonados cadastrados
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
@@ -67,24 +45,34 @@ void mostrarTodoscU(LISTAcU* li){
         if(li->inicio==NULL){
             printf("LISTA VAZIA\n");
         }else{
-            CAPScU* aux = li->inicio;
+            CAPSK* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nCadastro: %d                                       |",aux->dado.n_cadastrocU);
-                printf("\nHorario: %s",aux->dado.horario);
-                printf("\nCarga horaria: %d",aux->dado.cargaHoraria);
-                printf("\nlocal: Auditorio %d",aux->dado.local);
-                printf("\nCapacidade: %d",aux->dado.capacidade);
-                printf("\n\nTema: %s",aux->dado.tema);
-                printf("\nPalestrante: %s",aux->dado.palestrante);
-                printf("\n--------------------------------------------\n");
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Cadastro: %d        \n",aux->dado.n_cadastroK);
+                printf("  Horario: %s         \n",aux->dado.horario);
+                printf("  Carga horaria: %d   \n",aux->dado.cargaHoraria);
+                if(aux->dado.local==4){
+                    printf("  local: Lab 1 \n");
+                }else{
+                    if(aux->dado.local==5){
+                        printf("  local: Lab 2 \n");
+                    }else{
+                        printf("  local: Sala %d \n",aux->dado.local);
+                    }
+                }
+                printf("  Capacidade: %d      \n",aux->dado.capacidade);
+                printf("  Tema: %s            \n",aux->dado.tema);
+                printf("  Palestrante: %s     \n",aux->dado.palestrante);
+
+
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
         }
     }
 }
-
-int tamanhoLista(LISTAcU *li){
+int tamanhoListaK(LISTAK *li){
     if(li==NULL){
         //ERRO
     }else{
@@ -92,7 +80,7 @@ int tamanhoLista(LISTAcU *li){
             //vazia
         }else{
             int cont=0;
-            CAPScU *aux=li->inicio;
+            CAPSK *aux=li->inicio;
             while(aux!=NULL){
                 cont++;
                 aux=aux->proximo;
@@ -101,48 +89,54 @@ int tamanhoLista(LISTAcU *li){
         }
     }
 }
-
-void inserirListacU(LISTAcU *li,EVENTOcU cU){//insere na ordem de matricula
+void inserirListaK(LISTAK *li,EVENTOK eK){//insere na ordem de matricula
     if(li==NULL){
         //ERRO
     }else{
-        CAPScU *novo= (CAPScU*)malloc(sizeof(CAPScU));
+        CAPSK *novo= (CAPSK*)malloc(sizeof(CAPSK));
         if(novo!=NULL){
-            novo->dado= cU;
+            novo->dado= eK;
             if(li->inicio==NULL){//insercao com lista vazia
                 novo->proximo=NULL;
                 li->inicio=novo;
             }else{//insercao no inicio quando ja tem alguem na lista
-                CAPScU *aux=li->inicio;
-                if(aux->dado.n_cadastrocU>novo->dado.n_cadastrocU){// se o dado que tiver la for maior do que o que esta inserindo ai ele entra na frente[b] = [a,b]
+                CAPSK *aux=li->inicio;
+                if(aux->dado.n_cadastroK>novo->dado.n_cadastroK){// se o dado que tiver la for maior do que o que esta inserindo ai ele entra na frente[b] = [a,b]
                     novo->proximo=aux;
                     li->inicio=novo;
                 }else{//insercao no meio ou no fim
-                    CAPScU *ante;
-                    while((aux!=NULL)&&(aux->dado.n_cadastrocU<novo->dado.n_cadastrocU)){//enquanto o auxiliar for menor do que o dado inserido
+                    CAPSK *ante;
+                    while((aux!=NULL)&&(aux->dado.n_cadastroK<novo->dado.n_cadastroK)){//enquanto o auxiliar for menor do que o dado inserido
                         ante = aux;//guarda qual capsula é menor do que o novo
                         aux = aux->proximo;//passa, e guar o proximo que ele ira apontar
                     }
                     ante->proximo=novo;//o numeros menor que o novo ira apontar para o novo
                     novo->proximo=aux;// aponta para o aux que era o proximo maior que ele
                 }
-
             }
-
         }
     }
-
 }
-int mostrarEmRemovercU(CAPScU *aux){
-    linhaH(50,7,20);linhaV(12,7,20);linhaH(50,7,31);linhaV(12,56,20);
-    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,31,192);Pchar(56,31,217);
-    gotoxy(9,22);printf("CADASTRO: %d",aux->dado.n_cadastrocU);
+int mostrarEmRemoverK(CAPSK *aux){
+    linhaH(50,7,20);linhaV(14,7,20);linhaH(50,7,33);linhaV(14,56,20);
+    Pchar(7,20,218);Pchar(56,20,191);Pchar(7,33,192);Pchar(56,33,217);
+    gotoxy(9,22);printf("CADASTRO: %d",aux->dado.n_cadastroK);
     gotoxy(9,23);printf("CAPACIDADE: %d",aux->dado.capacidade);
     gotoxy(9,24);printf("HORARIO: %s",aux->dado.horario);
     gotoxy(9,25);printf("CARGA HORARIA: %d",aux->dado.cargaHoraria);
-    gotoxy(9,26);printf("LOCAL: Sala %d",aux->dado.local);
+    if(aux->dado.local==4){
+        gotoxy(9,26);printf("LOCAL: Lab 1");
+    }else{
+        if(aux->dado.local==5){
+            gotoxy(9,26);printf("LOCAL: Lab 2 ");
+        }else{
+            gotoxy(9,26);printf("LOCAL: Sala %d",aux->dado.local);
+        }
+    }
+
     gotoxy(9,27);printf("TEMA: %s",aux->dado.tema);
     gotoxy(9,28);printf("PALESTRANTE: %s",aux->dado.palestrante);
+
     VdesejaRemover();
     int op=getch();
     if(op==1){
@@ -150,9 +144,8 @@ int mostrarEmRemovercU(CAPScU *aux){
     }else{
         return 1;
         }
-
 }
-void removerListacU(LISTAcU *li,int num){//recebe numero da matricula
+int removerListaK(LISTAK *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -160,40 +153,40 @@ void removerListacU(LISTAcU *li,int num){//recebe numero da matricula
         if(li->inicio==NULL){
             //VAZIA
         }else{
-            CAPScU *aux=li->inicio;
-            if(aux->dado.n_cadastrocU==num){//se for o 1 da lista
+            CAPSK *aux=li->inicio;
+            if(aux->dado.n_cadastroK==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
-                if(mostrarEmRemovercU(aux)){
-                    return;
+                if(mostrarEmRemoverK(aux)){
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
-                CAPScU *ante;
-                while((aux!=NULL)&&(aux->dado.n_cadastrocU!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
+                CAPSK *ante;
+                while((aux!=NULL)&&(aux->dado.n_cadastroK!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
                     ante=aux;
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
-                if(mostrarEmRemovercU(aux)){//se deseja realmente remover
-                        return;
+                if(mostrarEmRemoverK(aux)){//se deseja realmente remover
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
-
 }
-
 int PegarLocalCurso(){
     //transforma a opcao local 1,2,3 em uma string
     int local;
     int on=1;
     while(on){
-        gotoxy(42,17);printf("[Entre 1-3]");
+        gotoxy(42,17);printf("[Entre 1-5]");
         gotoxy(46,16);scanf("%d",&local);setbuf(stdin,NULL);
 
         switch(local){
@@ -207,11 +200,18 @@ int PegarLocalCurso(){
                 break;
             case 3:
                 gotoxy(42,16);printf("Sala 3");
-
+                on=0;
+                break;
+            case 4:
+                gotoxy(42,16);printf("Lab 1  ");
+                on=0;
+                break;
+            case 5:
+                gotoxy(42,16);printf("Lab 2  ");
                 on=0;
                 break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
@@ -220,7 +220,6 @@ int PegarLocalCurso(){
     gotoxy(42,17);printf("             ");
     return local;
 }
-
 int PegarHorarioCurso(char horas[7][10]){
 
     int hora;
@@ -248,72 +247,97 @@ int PegarHorarioCurso(char horas[7][10]){
                 gotoxy(46,22);printf("%s",horas[hora]);
                 return hora;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
     }
     gotoxy(39,32);printf("                                                            ");
 }
+void pegarInfoCurso(EVENTOK *eK,LISTAK *liK,int n_cadastroK){
 
-pegarInfoCurso(EVENTOcU *cU,LISTAcU *licU,int n_cadastrocU){
-
-    n_cadastrocU++;//1000
-    gotoxy(27,32);printf("%d",n_cadastrocU);
-    cU->n_cadastrocU=n_cadastrocU;
+    gotoxy(27,32);printf("%d",n_cadastroK);
+    eK->n_cadastroK=n_cadastroK;
 //------------------------------capacidade
-    cU->capacidade = 40;
-    gotoxy(48,13);printf("%d",cU->capacidade);setbuf(stdin,NULL);
+    gotoxy(48,13);printf("---");
 //-----------------------local
     AvisoEventoLimpar();
-    AvisoEventoCursoLocais();
-    cU->local=PegarLocalCurso();//eP->local
+    AvisoEventoLocais();
+    eK->local=PegarLocalCurso();//eP->local
+    //capacidade dependendo do local
+        if(eK->local==1){
+            eK->capacidade =50;
+        }
+        if(eK->local==2){
+            eK->capacidade =50;
+        }
+        if(eK->local==3){
+            eK->capacidade =50;
+        }
+         if(eK->local==4){
+            eK->capacidade =20;
+        }
+        if(eK->local==3){
+            eK->capacidade =20;
+        }
+        gotoxy(48,13);printf("   ");
+        gotoxy(48,13);printf("%d",eK->capacidade);setbuf(stdin,NULL);
 
 
 
     AvisoEventoLimpar();
 //---------------------------------------carga horaria
-    gotoxy(48,19);scanf("%d",&cU->cargaHoraria);setbuf(stdin,NULL);
+    gotoxy(48,19);scanf("%d",&eK->cargaHoraria);setbuf(stdin,NULL);
 
 //---------------------------horario
 
     int H;
-    if(cU->local==1){
-            AvisoEventoCursoHorario(horasS1);
-            H =PegarHorarioCurso(horasS1);
-            strcpy(cU->horario,horasS1[H]);
-            strcpy(horasS1[H],"indis.");
+    if(eK->local==1){
+            AvisoEventoHorarios(KhorasS1);
+            H =PegarHorarioCurso(KhorasS1);
+            strcpy(eK->horario,KhorasS1[H]);
+            strcpy(KhorasS1[H],"indis.");
         }
-        if(cU->local==2){
-            AvisoEventoCursoHorario(horasS2);
-            H =PegarHorarioCurso(horasS2);
-            strcpy(cU->horario,horasS2[H]);
-            strcpy(horasS2[H],"indis.");
+        if(eK->local==2){
+            AvisoEventoHorarios(KhorasS2);
+            H =PegarHorarioCurso(KhorasS2);
+            strcpy(eK->horario,KhorasS2[H]);
+            strcpy(KhorasS2[H],"indis.");
         }
-        if(cU->local==3){
-            AvisoEventoCursoHorario(horasS3);
-            H =PegarHorarioCurso(horasS3);
-            strcpy(cU->horario,horasS3[H]);
-            strcpy(horasS3[H],"indis.");
+        if(eK->local==3){
+            AvisoEventoHorarios(KhorasS3);
+            H =PegarHorarioCurso(KhorasS3);
+            strcpy(eK->horario,KhorasS3[H]);
+            strcpy(KhorasS3[H],"indis.");
         }
-        cU->EditcU=H;//guardar a posição no vetor para quando for editar
+        if(eK->local==4){
+            AvisoEventoHorarios(KhorasL1);
+            H =PegarHorarioCurso(KhorasL1);
+            strcpy(eK->horario,KhorasL1[H]);
+            strcpy(KhorasL1[H],"indis.");
+        }
+        if(eK->local==5){
+            AvisoEventoHorarios(KhorasL2);
+            H =PegarHorarioCurso(KhorasL2);
+            strcpy(eK->horario,KhorasL2[H]);
+            strcpy(KhorasL2[H],"indis.");
+        }
+        eK->EditH=H;//guardar a posição no vetor para quando for editar
 
 
 
 //--------------------------------tema
     AvisoEventoLimpar();
-    gotoxy(40,25);gets(cU->tema);
+    gotoxy(40,25);gets(eK->tema);setbuf(stdin,NULL);
+    //uantidade palestrantes
+
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
-    gotoxy(40,28);gets(cU->palestrante);setbuf(stdin,NULL);
+    gotoxy(40,28);gets(eK->palestrante);setbuf(stdin,NULL);
+
         //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
 }
-//verificarPalestrante(PALESTRANTES *p, char palestrante){
-                //verificar os palestrantes cadastrados com os digitados
-                //se nao encontrar pedir pra digitar novamente e mostra mensagem de erro
-
-
-EditarLocalCurso(CAPScU *aux){
+void EditarLocalCurso(CAPSK *aux){
     //transforma a opcao local 1,2,3 em uma string
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
@@ -325,6 +349,12 @@ EditarLocalCurso(CAPScU *aux){
     }
     if(aux->dado.local==3){
         gotoxy(42,16);printf("Sala 3");
+    }
+    if(aux->dado.local==4){
+        gotoxy(42,16);printf("Lab 1 ");
+    }
+    if(aux->dado.local==5){
+        gotoxy(42,16);printf("Lab 2 ");
     }
     int on=1;
     while(on){
@@ -344,16 +374,23 @@ EditarLocalCurso(CAPScU *aux){
                 gotoxy(40,17);printf("=>Sala 3");
                 on=0;
                 break;
+            case 4:
+                gotoxy(40,17);printf("=>Lab 1");
+                on=0;
+                break;
+            case 5:
+                gotoxy(40,17);printf("=>Lab 2");
+                on=0;
+                break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
     }
     gotoxy(39,32);printf("                                                            ");
 }
-
-EditarHorarioCurso(CAPScU *aux){
+void EditarHorarioCurso(CAPSK *aux){
     //transforma a opcao local 1,2,3 em uma string
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
@@ -361,48 +398,77 @@ EditarHorarioCurso(CAPScU *aux){
 
         gotoxy(44,22);printf("=>");
         int H;
-    if(aux->dado.local==1){
-            strcpy(horasS1[aux->dado.EditcU],horasTarde[aux->dado.EditcU]);//tira o que ja tava como indisponivel e coloca o base
-            AvisoEventoCursoHorario(horasS1);//mostra os horarios disponiveis
-            H =PegarHorarioCurso(horasS1);//pega a posicao da hora
-            strcpy(aux->dado.horario,horasS1[H]);//e guarda essa hora
-            strcpy(horasS1[H],"indis.");//dps transforma ela em indispponivel
+        if(aux->dado.local==1){
+            strcpy(KhorasS1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(KhorasS1);//mostra os horarios disponiveis
+            H =PegarHorarioCurso(KhorasS1);//pega a posicao da hora
+            strcpy(aux->dado.horario,KhorasS1[H]);//e guarda essa hora
+            strcpy(KhorasS1[H],"indis.");//dps transforma ela em indispponivel
         }
         if(aux->dado.local==2){//cada palestra pode ocorrer em locais diferentes so que na mesma hora
-            strcpy(horasS2[aux->dado.EditcU],horasTarde[aux->dado.EditcU]);
-            AvisoEventoCursoHorario(horasS2);
-            H =PegarHorarioCurso(horasS2);
-            strcpy(aux->dado.horario,horasS2[H]);
-            strcpy(horasS2[H],"indis.");
+            strcpy(KhorasS2[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            AvisoEventoHorarios(KhorasS2);
+            H =PegarHorarioCurso(KhorasS2);
+            strcpy(aux->dado.horario,KhorasS2[H]);
+            strcpy(KhorasS2[H],"indis.");
         }
         if(aux->dado.local==3){
-            strcpy(horasS3[aux->dado.EditcU],horasTarde[aux->dado.EditcU]);
-            AvisoEventoCursoHorario(horasS3);
-            H =PegarHorarioCurso(horasS3);
-            strcpy(aux->dado.horario,horasS3[H]);
-            strcpy(horasS3[H],"indis.");
+            strcpy(KhorasS3[aux->dado.EditH],horasTarde[aux->dado.EditH]);
+            AvisoEventoHorarios(KhorasS3);
+            H =PegarHorarioCurso(KhorasS3);
+            strcpy(aux->dado.horario,KhorasS3[H]);
+            strcpy(KhorasS3[H],"indis.");
+        }
+        if(aux->dado.local==4){
+            strcpy(KhorasL1[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(KhorasL1);//mostra os horarios disponiveis
+            H =PegarHorarioCurso(KhorasL1);//pega a posicao da hora
+            strcpy(aux->dado.horario,KhorasL1[H]);//e guarda essa hora
+            strcpy(KhorasL1[H],"indis.");//dps transforma ela em indispponivel
+        }
+        if(aux->dado.local==5){
+            strcpy(KhorasL2[aux->dado.EditH],horasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+            AvisoEventoHorarios(KhorasL2);//mostra os horarios disponiveis
+            H =PegarHorarioCurso(KhorasL2);//pega a posicao da hora
+            strcpy(aux->dado.horario,KhorasL2[H]);//e guarda essa hora
+            strcpy(KhorasL2[H],"indis.");//dps transforma ela em indispponivel
         }
 
 
     gotoxy(39,32);printf("                                                            ");
 }
-
-
-void editarCurso(LISTAcU* li, int cadastroINFO){
-
+void editarCurso(LISTAK* li, int cadastroINFO){
     if(li !=NULL){
-        CAPScU* aux=li->inicio;
+        CAPSK* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
-            if(aux->dado.n_cadastrocU==cadastroINFO){
+            if(aux->dado.n_cadastroK==cadastroINFO){
                 VcadastrarCurso();
-                gotoxy(27,32);printf("%d",aux->dado.n_cadastrocU);
+                gotoxy(27,32);printf("%d",aux->dado.n_cadastroK);
                 //------------------------------capacidade
-                gotoxy(48,13);printf("  %d",aux->dado.capacidade);setbuf(stdin,NULL);
+                gotoxy(48,13);printf("%d =>---",aux->dado.capacidade);setbuf(stdin,NULL);
 
                 //-----------------------local
                 AvisoEventoLimpar();
-                AvisoEventoCursoLocais();
+                AvisoEventoLocais();
                 EditarLocalCurso(aux);
+                //capacidade
+                if(aux->dado.local==1){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==2){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==3){
+                    aux->dado.capacidade =50;
+                }
+                if(aux->dado.local==4){
+                    aux->dado.capacidade =20;
+                }
+                if(aux->dado.local==5){
+                    aux->dado.capacidade =20;
+                }
+                gotoxy(54,13);printf("   ");
+                gotoxy(54,13);printf(" %d",aux->dado.capacidade);
                 AvisoEventoLimpar();
 
 
@@ -413,14 +479,13 @@ void editarCurso(LISTAcU* li, int cadastroINFO){
                 //---------------------------horario
 
                 EditarHorarioCurso(aux);
-                AvisoEventoLimpar();
 
 
                 //--------------------------------tema
 
                 gotoxy(40,25);printf("%s",aux->dado.tema);
                 gotoxy(38,26);printf("=>");
-                gotoxy(40,26);gets(aux->dado.tema);
+                gotoxy(40,26);gets(aux->dado.tema);setbuf(stdin,NULL);
                 //-----------------------------palestrantes
                 //verificar se est]ao cadastrados
                 gotoxy(40,28);printf("%s",aux->dado.palestrante);
@@ -433,7 +498,7 @@ void editarCurso(LISTAcU* li, int cadastroINFO){
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
@@ -441,42 +506,4 @@ void editarCurso(LISTAcU* li, int cadastroINFO){
 }
 
 
-main(){
 
-
-    VcadastrarCurso();
-
-    EVENTOcU cU;
-    LISTAcU *licU=CriarcU();
-    int n_cadastrocU=3000;
-
-    pegarInfoCurso(&cU,licU,n_cadastrocU);
-    inserirListacU(licU,cU);
-    //mostrar todos
-    //
-    system("cls");
-    int num_editarcU;
-    VeditarCurso();
-    gotoxy(22,17);scanf("%d",&num_editarcU);
-    system("cls");
-    editarCurso(licU,num_editarcU);
-    //
-    system("cls");
-    mostrarTodoscU(licU);
-    getchar();
-    //remover
-    system("cls");
-    int num_removercU;
-    VremoverCurso();
-    gotoxy(22,17);scanf("%d",&num_removercU);
-    removerListacU(licU,num_removercU);
-//editar
-
-
-    liberar(licU);
-}
-
-
-
-
-//para rodar basta colocar no projeto com visual
