@@ -1,44 +1,44 @@
-#ifndef GRUPOS_H_INCLUDED
-#define GRUPOS_H_INCLUDED
+#ifndef CURSOS_H_INCLUDED
+#define CURSOS_H_INCLUDED
 
-typedef struct eventoG{
-    int n_cadastroG;
+typedef struct eventoK{
+    int n_cadastroK;
     int capacidade;
     char horario[5];
     int cargaHoraria;
     int local;
     char tema[30];
-    int Qpalestrantes;
-    char palestrante[5][30];
+    char palestrante[30];
     int EditH;
 };//evento palestras
-typedef struct eventoG EVENTOG;
+typedef struct eventoK EVENTOK;
 
-typedef struct capsulaG{
-    EVENTOG dado;
-    struct capsulaG *proximo;
+typedef struct capsulaK{
+    EVENTOK dado;
+    struct capsulaK *proximo;
 };
-typedef struct capsulaG CAPSG;
+typedef struct capsulaK CAPSK;
 
-typedef struct listaG{
-    CAPSG *inicio;
+typedef struct listaK{
+    CAPSK *inicio;
 };
-typedef struct listaG LISTAG;
+typedef struct listaK LISTAK;
 
-LISTAG* CriarG();
-void liberarG(LISTAG *li);
-void mostrarTodosG(LISTAG *li);
-int tamanhoListaG(LISTAG *li);
-void inserirListaG(LISTAG *li, EVENTOG gD);
-int mostrarEmRemoverG(CAPSG *aux);
-int removerListaG(LISTAG *li, int num);
-int PegarLocalGrupo();
-int PegarHorarioGrupo(char horas[7][10]);
-void pegarInfoGrupo(EVENTOG *gD, LISTAG *liG, int n_cadastroG);
-void EditarLocalGrupo(CAPSG *aux);
-void EditarHorarioGrupo(CAPSG *aux);
-void editarGrupo(LISTAG *li, int cadastroINFO);
+LISTAK* CriarK();
+void liberarK(LISTAK *li);
+void mostrarTodosK(LISTAK *li);
+int tamanhoListaK(LISTAK *li);
+void inserirListaK(LISTAK *li, EVENTOK eK);
+int mostrarEmRemoverK(CAPSK *aux);
+int removerListaK(LISTAK *li, int num);
+int PegarLocalCurso();
+int PegarHorarioCurso(char horas[7][10]);
+void pegarInfoCurso(EVENTOK *eK, LISTAK *liK, int n_cadastroK);
+void EditarLocalCurso(CAPSK *aux);
+void EditarHorarioCurso(CAPSK *aux);
+void editarCurso(LISTAK *li, int cadastroINFO);
 
 
 
-#endif // GRUPOS_H_INCLUDED
+#endif // CURSOS_H_INCLUDED
+
