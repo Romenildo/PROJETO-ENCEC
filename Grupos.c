@@ -258,7 +258,7 @@ int PegarHorarioGrupo(char horas[7][10]){
     }
     gotoxy(39,32);printf("                                                            ");
 }
-void pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG){
+void pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG, LISTApT *lipT){
 
     gotoxy(27,32);printf("%d",n_cadastroG);
     gD->n_cadastroG=n_cadastroG;
@@ -337,17 +337,13 @@ void pegarInfoGrupo(EVENTOG *gD,LISTAG *liG,int n_cadastroG){
 
     gotoxy(94,25);scanf("%d",&gD->Qpalestrantes);setbuf(stdin,NULL);
 //-----------------------------palestrantes
-    //verificar se est]ao cadastrados
-    for(int y2=28,y=28,i=0;i<gD->Qpalestrantes;i++){
-        if((i==3)||(i==4)){
-            gotoxy(70,y2);gets(gD->palestrante[i]);setbuf(stdin,NULL);
-            y2++;
-        }else{
-            gotoxy(40,y);gets(gD->palestrante[i]);setbuf(stdin,NULL);
-            y++;
-        }
-
+    int palestranteP;
+    AvisoP();
+    gotoxy(40,28);scanf("%d",&palestranteP);setbuf(stdin,NULL);
+    for(int i=0;i<gD->Qpalestrantes;i++){
+        strcpy(gD->palestrante[i],MostrarPalestrantesGRUPOS(lipT,i));
     }
+
 
         //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
 }
@@ -451,7 +447,7 @@ void EditarHorarioGrupo(CAPSG *aux){
 
     gotoxy(39,32);printf("                                                            ");
 }
-void editarGrupo(LISTAG* li, int cadastroINFO){
+void editarGrupo(LISTAG* li, int cadastroINFO, LISTApT *lipT){
     if(li !=NULL){
         CAPSG* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
@@ -506,10 +502,12 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
                 gotoxy(92,26);printf("=>");
                 gotoxy(94,26);scanf("%d",&aux->dado.Qpalestrantes);setbuf(stdin,NULL);
                 //verificar se est]ao cadastrados
-                gotoxy(40,28);printf("%s",aux->dado.palestrante[0]);
-                gotoxy(38,29);printf("=>");
-                gotoxy(40,29);gets(aux->dado.palestrante[0]);
-
+                int palestranteP;
+                AvisoP();
+                gotoxy(40,28);scanf("%d",&palestranteP);setbuf(stdin,NULL);
+                for(int i=0;i<aux->dado.Qpalestrantes;i++){
+                    strcpy(aux->dado.palestrante[i],MostrarPalestrantesGRUPOS(lipT,i));
+                }
                 VeditadoComSucesso();
                 return;
             }
@@ -523,4 +521,86 @@ void editarGrupo(LISTAG* li, int cadastroINFO){
     }
 }
 
+void adicionarCongressistaG(LISTAG *li,int Grupo,char *nome,int MAT){
+    //adiciona na palestra informada o nome, e matricula
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSG* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.n_cadastroG==Grupo){//acha a palestra
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==0){//adiciona o nome onde tiver vago
+                           aux->dado.CongN[i]=MAT;
+                           strcpy(aux->dado.CongNome[i],nome);
+
+
+                            return;
+                        }
+                    }
+                }
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void MostrarCongressistaPorGrupo(LISTAG *li,int Grupo){
+    system("cls");
+
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSG* aux = li->inicio;
+            printf("CONGRESSISTAS CADASTRADOS NO GRUPO %d\n",Grupo);
+            PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroG==Grupo){
+                    for(int i=0;i<50;i++){
+                        if((aux->dado.CongN[i]!=0)&&(aux->dado.CongN[i])){
+                            printf("     %d   -   %s\n",aux->dado.CongN[i],aux->dado.CongNome[i]);
+                        }else{
+                            break;
+                        }
+                    }
+
+                }
+
+                aux=aux->proximo;
+            }
+            PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+        }
+    }
+
+}
+
+void RemoverCongressistaDoGrupo(LISTAG *li,int Grupo,int Matricula){
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSG* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroG==Grupo){
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==Matricula){
+                            aux->dado.CongN[i]=0;
+                            strcpy(aux->dado.CongNome[i],"---");
+                        }
+                    }
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
 
