@@ -1,38 +1,55 @@
-#ifndef ORGANIZADOR_H_INCLUDED
-#define ORGANIZADOR_H_INCLUDED
+#ifndef OFICINAS_H_INCLUDED
+#define OFICINAS_H_INCLUDED
 
-typedef struct organizador{
-    int MatriculaO;
-    char nome[30];
-    char cpf[15];
-    char telefone[15];
-    char email[30];
-};//ORGANIZADORES
-typedef struct organizador ORGANIZADOR;
-
-
-typedef struct capsulaO{
-    ORGANIZADOR dado;
-    struct capsulaO *proximo;
+typedef struct eventoOf{
+    int n_cadastroOf;
+    int capacidade;
+    char horario[5];
+    int cargaHoraria;
+    int local;
+    char tema[30];
+    char palestrante[30];
+    int EditH;
+    int CongN[50];
+    char CongNome[50][50]
 };
-typedef struct capsulaO CAPSO;
+typedef struct eventoOf EVENTOOf;
 
-
-typedef struct listaO{
-    CAPSO *inicio;
+typedef struct capsulaOf{
+    EVENTOOf dado;
+    struct capsulaOf *proximo;
 };
-typedef struct listaO LISTAO;
+typedef struct capsulaOf CAPSOf;
 
-LISTAO* CriarO();
-void liberarO(LISTAO* li);
-void mostrarTodosO(LISTAO* li);
-int tamanhoListaO(LISTAO *li);
-void inserirListaO(LISTAO *li,ORGANIZADOR eO);
-int mostrarEmRemoverO(CAPSO *aux);
-int removerListaO(LISTAO *li, int num);
-void pegarInfoOrganizador(ORGANIZADOR *eO, LISTAO *liO, int MatriculaO);
-void editarOrganizador(LISTAO *li, int matriculaINFO);
+typedef struct listaOf{
+    CAPSOf *inicio;
+};
+typedef struct listaOf LISTAOf;
+
+typedef struct listapT LISTApT;
+
+LISTAOf* CriarOf();
+void liberarOf(LISTAOf *li);
+void mostrarTodosOf(LISTAOf *li);
+int tamanhoListaOf(LISTAOf *li);
+void inserirListOf(LISTAOf *li, EVENTOOf oF);
+int mostrarEmRemoverOf(CAPSOf *aux);
+int removerListaOf(LISTAOf *li, int num);
+int PegarLocalOficina();
+int PegarHorarioOficina(char horas[7][10]);
+void pegarInfoOficina(EVENTOOf *oF, LISTAOf *liOf, int n_cadastroOf,LISTApT *lipT);
+void EditarLocalOficina(CAPSOf *aux);
+void EditarHorarioOficina(CAPSOf *aux);
+void editarOficina(LISTAOf *li, int cadastroINFO,LISTApT *lipT);
 
 
-#endif // ORGANIZADOR_H_INCLUDED
+void adicionarCongressistaOf(LISTAOf *li,int Oficina,char *nome,int MAT);
+void MostrarCongressistaPorOficina(LISTAOf *li,int Oficina);
+void RemoverCongressistaDaOficina(LISTAOf *li,int Oficina,int Matricula);
 
+
+
+
+
+
+#endif // OFICINAS_H_INCLUDED
