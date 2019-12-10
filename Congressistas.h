@@ -9,7 +9,11 @@ typedef struct eventoc{
     char curso[30];
     char email[30];
     char nome[30];
-    int P;
+    int P[6];//palestras
+    int G[6];//grupos de discursoes
+    int C;//so poderá participar de um curso
+    int O;//so podera participar de uma oficina
+
 };//CONGRESSISTAS
 typedef struct eventoc EVENTOC;
 
@@ -25,6 +29,7 @@ typedef struct listac{
 };
 typedef struct listac LISTAC;
 
+
 LISTAC* CriarC();
 void liberarC(LISTAC* li);
 void mostrarTodosC(LISTAC* li);
@@ -35,10 +40,25 @@ int removerListaC(LISTAC* li, int num);
 void pegarInfoCongressista(EVENTOC* eC, LISTAC* liC, int MatriculaC);
 void editarCongressista(LISTAC* li, int matriculaINFO);
 
+void mostrarMeNdosCPalestra(LISTAC* li);
+void mostrarMeNdosCGrupo(LISTAC* li);
+void mostrarMeNdosCCurso(LISTAC* li);
+void mostrarMeNdosCOficina(LISTAC* li);
+
+char *TransformarMemN(LISTAC *li,int Matricula);
+
+void mudarPdoC(LISTAC *li,int Matricula,int PAL);
+void REMOVERmudarPdoC(LISTAC *li,int Matricula,int PAL);
 
 
+void mudarGdoC(LISTAC *li,int Matricula,int PAL);
+void REMOVERmudarGdoC(LISTAC *li,int Matricula,int PAL);
 
+void mudarCdoC(LISTAC *li,int Matricula,int PAL);
+void REMOVERmudarCdoC(LISTAC *li,int Matricula,int PAL);
 
+void mudarOdoC(LISTAC *li,int Matricula,int PAL);
+void REMOVERmudarOdoC(LISTAC *li,int Matricula,int PAL);
 
 
 
