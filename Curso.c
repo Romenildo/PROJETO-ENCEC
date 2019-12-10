@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "Cursos.h"
+#include "Palestrante.h"
 #include "Visual.h"
 
 char KhorasTarde[7][10]={"0","13:00","14:00","15:00","16:00","17:00","18:00"};
@@ -254,7 +255,7 @@ int PegarHorarioCurso(char horas[7][10]){
     }
     gotoxy(39,32);printf("                                                            ");
 }
-void pegarInfoCurso(EVENTOK *eK,LISTAK *liK,int n_cadastroK){
+void pegarInfoCurso(EVENTOK *eK,LISTAK *liK,int n_cadastroK, LISTApT *lipT){
 
     gotoxy(27,32);printf("%d",n_cadastroK);
     eK->n_cadastroK=n_cadastroK;
@@ -333,10 +334,17 @@ void pegarInfoCurso(EVENTOK *eK,LISTAK *liK,int n_cadastroK){
 
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
-    gotoxy(40,28);gets(eK->palestrante);setbuf(stdin,NULL);
+    int palestranteC;
+    AvisoP();
+    gotoxy(40,28);scanf("%d",&palestranteC);setbuf(stdin,NULL);
+    char *nome=(char*)malloc(50*sizeof(char));
+    strcpy(eK->palestrante,MostrarPalestrantes(lipT,&nome));
+    free(nome);
 
-        //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
+
 }
+
+
 void EditarLocalCurso(CAPSK *aux){
     //transforma a opcao local 1,2,3 em uma string
 
@@ -437,7 +445,7 @@ void EditarHorarioCurso(CAPSK *aux){
 
     gotoxy(39,32);printf("                                                            ");
 }
-void editarCurso(LISTAK* li, int cadastroINFO){
+void editarCurso(LISTAK* li, int cadastroINFO, LISTApT *lipT){
     if(li !=NULL){
         CAPSK* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
@@ -479,6 +487,7 @@ void editarCurso(LISTAK* li, int cadastroINFO){
                 //---------------------------horario
 
                 EditarHorarioCurso(aux);
+                AvisoEventoLimpar();
 
 
                 //--------------------------------tema
@@ -488,9 +497,12 @@ void editarCurso(LISTAK* li, int cadastroINFO){
                 gotoxy(40,26);gets(aux->dado.tema);setbuf(stdin,NULL);
                 //-----------------------------palestrantes
                 //verificar se est]ao cadastrados
-                gotoxy(40,28);printf("%s",aux->dado.palestrante);
-                gotoxy(38,29);printf("=>");
-                gotoxy(40,29);gets(aux->dado.palestrante);
+                int palestranteC;
+                AvisoP();
+                gotoxy(40,28);scanf("%d",&palestranteC);setbuf(stdin,NULL);
+                char *nome=(char*)malloc(50*sizeof(char));
+                strcpy(aux->dado.palestrante,MostrarPalestrantes(lipT,&nome));
+                free(nome);
 
                 VeditadoComSucesso();
                 return;
@@ -505,5 +517,142 @@ void editarCurso(LISTAK* li, int cadastroINFO){
     }
 }
 
+void adicionarCongressistaK(LISTAK *li,int Curso,char *nome,int MAT){
+    //adiciona na palestra informada o nome, e matricula
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSK* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.n_cadastroK==Curso){//acha a palestra
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==0){//adiciona o nome onde tiver vago
+                           aux->dado.CongN[i]=MAT;
+                           strcpy(aux->dado.CongNome[i],nome);
 
 
+                            return;
+                        }
+                    }
+                }
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void MostrarCongressistaPorCurso(LISTAK *li,int Curso){
+    system("cls");
+
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSK* aux = li->inicio;
+            printf("CONGRESSISTAS CADASTRADOS NO CURSO %d\n",Curso);
+            PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroK==Curso){
+                    for(int i=0;i<50;i++){
+                        if((aux->dado.CongN[i]!=0)&&(aux->dado.CongN[i])){
+                            printf("     %d   -   %s\n",aux->dado.CongN[i],aux->dado.CongNome[i]);
+                        }else{
+                            break;
+                        }
+                    }
+
+                }
+
+                aux=aux->proximo;
+            }
+            PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+        }
+    }
+
+}
+
+void RemoverCongressistaDoCurso(LISTAK *li,int Curso,int Matricula){
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSK* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroK==Curso){
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==Matricula){
+                            aux->dado.CongN[i]=0;
+                            strcpy(aux->dado.CongNome[i],"---");
+                        }
+                    }
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
+
+void desocuparPalestranteK(LISTApT *lipT,LISTAK *liK,int Curso){
+    if(liK==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(liK->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSK* aux = liK->inicio;
+            CAPSpT* aux2=lipT->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroK==Curso){
+                    if(strcmp(aux->dado.palestrante,aux2->dado.nome)==0){
+                    aux2->dado.ocupado=0;
+                }
+
+                }
+                aux2=aux2->proximo;
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
+
+void removerHorarioK(LISTAK *li, int Curso){
+     if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSK* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.local==1){
+                strcpy(KhorasS1[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==2){
+                strcpy(KhorasS2[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==3){
+                strcpy(KhorasS3[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==4){
+                strcpy(KhorasL1[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==4){
+                strcpy(KhorasL2[aux->dado.EditH],KhorasTarde[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+
+
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
