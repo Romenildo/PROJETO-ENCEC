@@ -10,6 +10,8 @@ typedef struct eventoOf{
     char tema[30];
     char palestrante[30];
     int EditH;
+    int CongN[50];
+    char CongNome[50][50]
 };
 typedef struct eventoOf EVENTOOf;
 
@@ -38,7 +40,12 @@ int PegarHorarioOficina(char horas[7][10]);
 void pegarInfoOficina(EVENTOOf *oF, LISTAOf *liOf, int n_cadastroOf,LISTApT *lipT);
 void EditarLocalOficina(CAPSOf *aux);
 void EditarHorarioOficina(CAPSOf *aux);
-void editarOficina(LISTAOf *li, int cadastroINFO);
+void editarOficina(LISTAOf *li, int cadastroINFO,LISTApT *lipT);
+
+
+void adicionarCongressistaOf(LISTAOf *li,int Oficina,char *nome,int MAT);
+void MostrarCongressistaPorOficina(LISTAOf *li,int Oficina);
+void RemoverCongressistaDaOficina(LISTAOf *li,int Oficina,int Matricula);
 
 
 
