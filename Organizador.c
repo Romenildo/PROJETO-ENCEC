@@ -48,7 +48,7 @@ void mostrarTodosO(LISTAO* li){
                 printf("  CPF: %s         \n",aux->dado.cpf);
                 printf("  telefone: %s    \n",aux->dado.telefone);
                 printf("  Email: %s       \n",aux->dado.email);
-                PlinhaH(50);PFchar(217);printf("\n");
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
