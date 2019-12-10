@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 #include <windows.h>
 #include "Congressista.h"
 #include "Visual.h"
@@ -49,7 +50,43 @@ void mostrarTodosC(LISTAC* li){
                 printf("  Curso: %s       \n",aux->dado.curso);
                 printf("  Email: %s       \n",aux->dado.email);
                 printf("  Nome: %s        \n",aux->dado.nome);
-                PlinhaH(50);PFchar(217);printf("\n");
+                if(aux->dado.P[0]==0){
+                    printf("  Palestras: nenhuma");
+                }else{
+                    printf("  Palestras:: %d ",aux->dado.P[0]);
+                    for(int i=1;i<6;i++){
+                        if((aux->dado.P!=0)&&(aux->dado.P<9999)){
+                            printf(" %d",aux->dado.P);//printar todas as matriculas de palestras que ele estiver
+                        }
+                    }
+                }
+                printf("\n");
+                if(aux->dado.G[0]==0){
+                    printf("  Grupos: nenhuma");
+                }else{
+                    printf("  Grupos: %d ",aux->dado.G[0]);
+                    for(int i=1;i<6;i++){
+                        if((aux->dado.G!=0)&&(aux->dado.G<9999)){
+                            printf(" %d",aux->dado.G);//printar todas as matriculas de grupo que ele estiver
+                        }
+                    }
+                }
+                printf("\n");
+                if(aux->dado.C==0){
+                    printf("  Curso: nenhuma");
+                }else{
+                    printf("  Curso: %d",aux->dado.C);
+                }
+                printf("\n");
+                if(aux->dado.O==0){
+                    printf("  Oficina: nenhuma");
+                }else{
+                    printf("  Oficina: %d",aux->dado.O);
+                }
+                printf("\n");
+
+
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
@@ -227,4 +264,313 @@ void editarCongressista(LISTAC* li, int matriculaINFO){
         printf("ERRO DE ALOCACAO!!!\n");
     }
 }
+//mostrar todos os congressistas matricula e nome
+void mostrarMeNdosCPalestra(LISTAC* li){
+    system("cls");
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            printf("                   CONGRESSISTAS CADASTRADOS\n");
+            while(aux!=NULL){
+                if(aux->dado.P[0]==0){
+                    PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                    printf("  Congressista: %d  ",aux->dado.MatriculaC);
+                    printf("- %s        \n",aux->dado.nome);
+                    PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+                }
+
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void mostrarMeNdosCGrupo(LISTAC* li){
+    system("cls");
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            printf("                   CONGRESSISTAS CADASTRADOS\n");
+            while(aux!=NULL){
+                if(aux->dado.G[0]==0){
+                    PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                    printf("  Congressista: %d  ",aux->dado.MatriculaC);
+                    printf("- %s        \n",aux->dado.nome);
+                    PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+                }
+
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void mostrarMeNdosCCurso(LISTAC* li){
+    system("cls");
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            printf("                   CONGRESSISTAS CADASTRADOS\n");
+            while(aux!=NULL){
+                if(aux->dado.C==0){
+                    PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                    printf("  Congressista: %d  ",aux->dado.MatriculaC);
+                    printf("- %s        \n",aux->dado.nome);
+                    PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+                }
+
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void mostrarMeNdosCOficina(LISTAC* li){
+    system("cls");
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            printf("                   CONGRESSISTAS CADASTRADOS\n");
+            while(aux!=NULL){
+                if(aux->dado.O==0){
+                    PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                    printf("  Congressista: %d  ",aux->dado.MatriculaC);
+                    printf("- %s        \n",aux->dado.nome);
+                    PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+                }
+
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+
+
+
+char *TransformarMemN(LISTAC *li,int Matricula){
+    //recebe a matricula e retorna o nome
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+
+                    char* nome=(char*)malloc(50*sizeof(nome));
+                    strcpy(nome,aux->dado.nome);
+                    return nome;
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+void mudarPdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+                    for(int i=0;i<6;i++){
+                        if(aux->dado.P[i]==0){
+                            aux->dado.P[i]=PAL;
+                        }
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void REMOVERmudarPdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+
+                        if(aux->dado.P[0]!=0){
+                            aux->dado.P[0]=PAL;
+
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+void mudarGdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+                        if(aux->dado.G[0]==0){
+                            aux->dado.G[0]=PAL;
+
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void REMOVERmudarGdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+
+                        if(aux->dado.G[0]!=0){
+                            aux->dado.G[0]=PAL;
+
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+void mudarCdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+                    aux->dado.C=PAL;
+                    break;
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void REMOVERmudarCdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+
+                        if(aux->dado.C!=0){
+                            aux->dado.C=PAL;
+
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+void mudarOdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+                    aux->dado.O=PAL;
+                    break;
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void REMOVERmudarOdoC(LISTAC *li,int Matricula,int PAL){
+    //adiciona no congressista a matricula da palestra q esta participando
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSC* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.MatriculaC==Matricula){
+
+                        if(aux->dado.O!=0){
+                            aux->dado.O=PAL;
+
+                    }
+
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+
+//adicionar 1001(congressista em 2001(palestra)
+
+
+
+
+
+
 
