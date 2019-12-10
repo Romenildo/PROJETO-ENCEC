@@ -17,18 +17,18 @@
 void limparTela(){
     system("cls");
 }
-gotoxy(int x, int y){
+void gotoxy(int x, int y){
     //posiciona o cursor em determinado local da tela
      SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),(COORD){x,y});
 }
 
-PFchar(int ch){
+void PFchar(int ch){
     //printar caractere fixo
     printf("%c",ch);
 
 }
 
-PMchar(int local1,int local2,int quant){
+void PMchar(int local1,int local2,int quant){
     //printar multiplos caracteres
     gotoxy(local1,local2);
     for(int i=0;i<quant;i++){
@@ -36,12 +36,12 @@ PMchar(int local1,int local2,int quant){
     }
 }
 
-Pchar(int local1, int local2, int caractere){
+void Pchar(int local1, int local2, int caractere){
     //printar caractere em local especifico
 
         gotoxy(local1,local2);printf("%c", caractere);
 }
-linhaV(int tam,int local1,int local2){
+void linhaV(int tam,int local1,int local2){
     //printar linha no local desejado com o tamnho que quiser
     for(int i=0;i<tam;i++){
         gotoxy(local1,local2);printf("%c",179);
@@ -50,20 +50,20 @@ linhaV(int tam,int local1,int local2){
     }
 }
 
-PlinhaV(int tam){
+void PlinhaV(int tam){
     //printar linha no local desejado com o tamnho que quiser
     for(int i=0;i<tam;i++){
         printf("%c",179);
     }
 }
-PlinhaH(int tam){
+void PlinhaH(int tam){
     //printar linha do tamanho dito
     for(int i=0;i<tam;i++){
         printf("%c",196);
     }
 }
 
-linhaH(int tam,int local1,int local2){
+void linhaH(int tam,int local1,int local2){
     //printar linha no local desejado com o tamnho que quiser
     for(int i=0;i<tam;i++){
         gotoxy(local1,local2);printf("%c",196);
@@ -74,7 +74,7 @@ linhaH(int tam,int local1,int local2){
 
 //-----------------END FUNCOES--------------------
 //-----------------VISUAL---------------------------
-VdesignOP(){
+void VdesignOP(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(35,38,12);linhaH(35,38,14);linhaV(3,38,12);linhaV(3,73,12);
     Pchar(38,12,218);Pchar(73,12,191);Pchar(38,14,192);Pchar(73,14,217);
@@ -101,7 +101,7 @@ VdesignOP(){
 }
 
 
-TelaLoading(){
+void TelaLoading(){
     system("color 0F");
     //mostrar tela de carregamento ENCEC
     PMchar(20,10,10);PMchar(34,10,3);PMchar(43,10,3);PMchar(49,10,9);PMchar(61,10,9);PMchar(73,10,9);
@@ -125,7 +125,7 @@ TelaLoading(){
  system("cls");
 }
 
-Vcabecalho(){
+void Vcabecalho(){
     //BASE VISUAL DO SISTEMA
         //33 maxima baixo 106 maximo lado
     //quadrado de cima
@@ -141,39 +141,39 @@ Vcabecalho(){
     gotoxy(80,9);printf("%s  , %s\n",__DATE__,__TIME__);
 }
 
-VopcoesPrincipal(){
+void VopcoesPrincipal(){
     //primeira tela de opcoes
     system("color F0");
     Vcabecalho();
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   / linha baixo
-    linhaH(27,9,12);linhaH(27,9,14);linhaV(10,9,12);linhaV(10,36,12);linhaH(27,9,22);
+    printf(C_WATER"");linhaH(27,9,12);linhaH(27,9,14);linhaV(10,9,12);linhaV(10,36,12);linhaH(27,9,22);
     Pchar(9,12,218);Pchar(36,12,191);Pchar(9,14,195);Pchar(36,14,180);Pchar(9,22,192);Pchar(36,22,217);
 //  lados de cima   ----------------/lados 2 de cima----------------/ lados de baixo---------------
     gotoxy(11,13);printf("1-EVENTOS");
     gotoxy(11,15);PFchar(175);printf(" PALESTRAS");
-    gotoxy(11,16);PFchar(175);printf(" GRUPOS DE DISCUSSÕES");
+    gotoxy(11,16);PFchar(175);printf(" GRUPOS DE DISCUSSOES");
     gotoxy(11,17);PFchar(175);printf(" CURSOS");
     gotoxy(11,18);PFchar(175);printf(" OFICINAS");
-    gotoxy(11,19);PFchar(175);printf(" VOLTAR");
+    gotoxy(11,19);PFchar(175);printf(" VOLTAR"C_BLACK);
 
     //-----------------------2H
-    linhaH(27,42,12);linhaH(27,42,14);linhaV(10,42,12);linhaV(10,69,12);linhaH(27,42,22);
+    printf(C_BLUE"");linhaH(27,42,12);linhaH(27,42,14);linhaV(10,42,12);linhaV(10,69,12);linhaH(27,42,22);
     Pchar(42,12,218);Pchar(69,12,191);Pchar(42,14,195);Pchar(69,14,180);Pchar(42,22,192);Pchar(69,22,217);
     gotoxy(44,13);printf("2-CONGRESSISTAS");
     gotoxy(44,15);PFchar(175);printf(" CADASTRAR");
     gotoxy(44,16);PFchar(175);printf(" LISTAR");
     gotoxy(44,17);PFchar(175);printf(" EDITAR");
     gotoxy(44,18);PFchar(175);printf(" REMOVER");
-    gotoxy(44,19);PFchar(175);printf(" VOLTAR");
+    gotoxy(44,19);PFchar(175);printf(" VOLTAR"C_BLACK);
     //------------------------3H
-    linhaH(27,74,12);linhaH(27,74,14);linhaV(10,74,12);linhaV(10,100,12);linhaH(27,74,22);
+    printf(C_YELLOW"");linhaH(27,74,12);linhaH(27,74,14);linhaV(10,74,12);linhaV(10,100,12);linhaH(27,74,22);
     Pchar(74,12,218);Pchar(100,12,191);Pchar(74,14,195);Pchar(100,14,180);Pchar(74,22,192);Pchar(100,22,217);
     gotoxy(76,13);printf("3-PALESTRANTES");
     gotoxy(76,15);PFchar(175);printf(" CADASTRAR");
     gotoxy(76,16);PFchar(175);printf(" LISTAR");
     gotoxy(76,17);PFchar(175);printf(" EDITAR");
     gotoxy(76,18);PFchar(175);printf(" REMOVER");
-    gotoxy(76,19);PFchar(175);printf(" VOLTAR");
+    gotoxy(76,19);PFchar(175);printf(" VOLTAR"C_BLACK);
     //----------------------1V altura 23
     linhaH(27,25,23);linhaH(27,25,25);linhaV(10,25,23);linhaV(10,51,23);linhaH(27,25,33);
     Pchar(25,23,218);Pchar(51,23,191);Pchar(25,25,195);Pchar(51,25,180);Pchar(51,33,192);Pchar(51,33,217);
@@ -191,16 +191,145 @@ VopcoesPrincipal(){
     gotoxy(64,27);PFchar(175);printf(" CURSOS");
     gotoxy(64,28);PFchar(175);printf(" GRUPOS DE DISCUSSOES");
     gotoxy(64,29);PFchar(175);printf(" OFICINAS");
-    gotoxy(64,30);PFchar(175);printf(" xxxxxxxxxxxx");
-    gotoxy(64,31);PFchar(175);printf(" xxxxxxxxxxxx");
+    gotoxy(64,30);PFchar(175);printf(" VOLTAR");
+    gotoxy(100,33);printf("0-sair");
 
     //------------------------3V
 
     //------------------------3V
 
 }
+void VopcoesOficinas(){
+    system("cls");
+    system("color B0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("            OFICINAS ");
+    gotoxy(11,17);printf("1 - CADASTRAR");
+    gotoxy(11,20);printf("2 - LISTAR");
+    gotoxy(11,23);printf("3 - REMOVER");
+    gotoxy(11,26);printf("4 - EDITAR");
+    gotoxy(11,29);printf("5 - VOLTAR");
+}
 
-VopcoesPalestrantes(){
+void VopcoesEventos(){
+    system("cls");
+    system("color B0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("              EVENTOS");
+    gotoxy(11,17);printf("1 - PALESTRAS");
+    gotoxy(11,20);printf("2 - GRUPOS DE DISCUSSOES");
+    gotoxy(11,23);printf("3 - CURSOS");
+    gotoxy(11,26);printf("4 - OFICINAS");
+    gotoxy(11,29);printf("5 - VOLTAR");
+    AvisoOPeventos();
+}
+void AvisoOPeventos(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("  Criacao dos eventos");
+    gotoxy(62,20);printf("  devem ser criados");
+    gotoxy(62,21);printf(" primeiros para poder");
+    gotoxy(62,22);printf("ir para parte de gerenciar!");
+}
+void VopcoesGerenciar(){
+    system("cls");
+    system("color F0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("              EVENTOS");
+    gotoxy(11,17);printf("1 - PALESTRAS");
+    gotoxy(11,20);printf("2 - GRUPOS DE DISCUSSOES");
+    gotoxy(11,23);printf("3 - CURSOS");
+    gotoxy(11,26);printf("4 - OFICINAS");
+    gotoxy(11,29);printf("5 - VOLTAR");
+    AvisoOPgerenciar();
+}
+void AvisoOPgerenciar(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("  Gerenciar os eventos");
+    gotoxy(62,20);printf(" Pode adicionar os");
+    gotoxy(62,21);printf(" congressistas nos");
+    gotoxy(62,22);printf(" devidos eventos ");
+    gotoxy(62,23);printf("  cadastrados!");
+
+}
+void VopcoesCursos(){
+    system("cls");
+    system("color B0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("             CURSOS");
+    gotoxy(11,17);printf("1 - CADASTRAR");
+    gotoxy(11,20);printf("2 - LISTAR");
+    gotoxy(11,23);printf("3 - REMOVER");
+    gotoxy(11,26);printf("4 - EDITAR");
+    gotoxy(11,29);printf("5 - VOLTAR");
+}
+
+
+void VopcoesGrupos(){
+    system("cls");
+    system("color B0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("      GRUPOS DE DISCUSSOES");
+    gotoxy(11,17);printf("1 - CADASTRAR");
+    gotoxy(11,20);printf("2 - LISTAR");
+    gotoxy(11,23);printf("3 - REMOVER");
+    gotoxy(11,26);printf("4 - EDITAR");
+    gotoxy(11,29);printf("5 - VOLTAR");
+    AvisoOPgrupos();
+}
+void AvisoOPgrupos(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("  Os grupos sao organizados");
+    gotoxy(62,20);printf(" entre 1 a 5 palestrantes");
+
+}
+
+void VopcoesPalestras(){
+    system("cls");
+    system("color B0");
+    Vcabecalho();
+    VdesignOP();
+    gotoxy(39,13);printf("          PALESTRAS");
+    gotoxy(11,17);printf("1 - CADASTRAR");
+    gotoxy(11,20);printf("2 - LISTAR");
+    gotoxy(11,23);printf("3 - REMOVER");
+    gotoxy(11,26);printf("4 - EDITAR");
+    gotoxy(11,29);printf("5 - VOLTAR");
+    AvisoOPpalestras();
+}
+void AvisoOPpalestras(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("  As palestras so poderao");
+    gotoxy(62,20);printf(" ser cadastradas caso");
+    gotoxy(62,21);printf(" haja palestrantes!!");
+}
+
+
+void VopcoesPalestrantes(){
     system("cls");
     system("color E0");
 Vcabecalho();
@@ -211,10 +340,22 @@ VdesignOP();
     gotoxy(11,23);printf("3 - REMOVER");
     gotoxy(11,26);printf("4 - EDITAR");
     gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
+    AvisoOPpalestrantes();
+}
+void AvisoOPpalestrantes(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("  Os palestrantes sao");
+    gotoxy(62,20);printf(" sao os principais para o");
+    gotoxy(62,21);printf("evento devem ser cadastrados");
+    gotoxy(62,22);printf("antes de adicionar os eventos!");
 }
 
-VopcoesCongressistas(){
+void VopcoesCongressistas(int lim300){
     system("cls");
     system("color 9F");
 Vcabecalho();
@@ -225,10 +366,10 @@ VdesignOP();
     gotoxy(11,23);printf("3 - REMOVER");
     gotoxy(11,26);printf("4 - EDITAR");
     gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
+    AvisoOPCongressistas(lim300);
 }
 
-VopcoesOrganizadores(){
+void VopcoesOrganizadores(){
     system("cls");
     system("color 0F");
 Vcabecalho();
@@ -239,78 +380,25 @@ VdesignOP();
     gotoxy(11,23);printf("3 - REMOVER");
     gotoxy(11,26);printf("4 - EDITAR");
     gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
+    AvisoOPorganizadores();
 }
-
+void AvisoOPorganizadores(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("    Os organizadores");
+    gotoxy(62,20);printf("     sao da parte do ");
+    gotoxy(62,21);printf("  gerenciamento do evento");
+}
 //--------------------VISUAL EVENTO
-VopcoesEventos(){
-    system("cls");
-    system("color E0");
-Vcabecalho();
-VdesignOP();
-    gotoxy(39,13);printf("           EVENTOS");
-    gotoxy(11,17);printf("1 - PALESTRAS");
-    gotoxy(11,20);printf("2 - GRUPOS DE DISCUSSÕES");
-    gotoxy(11,23);printf("3 - CURSOS");
-    gotoxy(11,26);printf("4 - OFICINAS");
-    gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
-}
-VopcoesEventosPalestras(){
-    system("cls");
-    system("color E0");
-Vcabecalho();
-VdesignOP();
-    gotoxy(39,13);printf("          PALESTRAS");
-    gotoxy(11,17);printf("1 - CADASTRAR");
-    gotoxy(11,20);printf("2 - LISTAR");
-    gotoxy(11,23);printf("3 - REMOVER");
-    gotoxy(11,26);printf("4 - EDITAR");
-    gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
-}
-VopcoesEventosGrupos(){
-    system("cls");
-    system("color E0");
-Vcabecalho();
-VdesignOP();
-    gotoxy(39,13);printf("     GRUPOS DE DISCUSSÕES");
-    gotoxy(11,17);printf("1 - CADASTRAR");
-    gotoxy(11,20);printf("2 - LISTAR");
-    gotoxy(11,23);printf("3 - REMOVER");
-    gotoxy(11,26);printf("4 - EDITAR");
-    gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
-}
-VopcoesEventosCursos(){
-    system("cls");
-    system("color E0");
-Vcabecalho();
-VdesignOP();
-    gotoxy(39,13);printf("          CURSOS");
-    gotoxy(11,17);printf("1 - CADASTRAR");
-    gotoxy(11,20);printf("2 - LISTAR");
-    gotoxy(11,23);printf("3 - REMOVER");
-    gotoxy(11,26);printf("4 - EDITAR");
-    gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
-}
-VopcoesEventosOficinas(){
-    system("cls");
-    system("color E0");
-Vcabecalho();
-VdesignOP();
-    gotoxy(39,13);printf("          OFICINAS");
-    gotoxy(11,17);printf("1 - CADASTRAR");
-    gotoxy(11,20);printf("2 - LISTAR");
-    gotoxy(11,23);printf("3 - REMOVER");
-    gotoxy(11,26);printf("4 - EDITAR");
-    gotoxy(11,29);printf("5 - VOLTAR");
-    AvisoOP();
-}
+
+
 //---------------END VISUAL EVENTO
 //----------------VISUAL CADASTROS---------------
-Vcadastrar(){
+void Vcadastrar(){
 system("color 0F");
 Vcabecalho();
 linhaH(99,6,12);linhaV(22,6,12);linhaH(99,6,33);linhaV(22,105,12);
@@ -327,7 +415,7 @@ linhaV(13,65,12);Pchar(65,12,194);Pchar(65,15,180);Pchar(65,18,180);Pchar(65,21,
 Pchar(65,24,193);
 
 }
-VcadastrarCongressista(){
+void VcadastrarCongressista(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("IDADE ");
@@ -337,11 +425,10 @@ VcadastrarCongressista(){
     gotoxy(16,25);printf("EMAIL");
     gotoxy(16,28);printf("NOME");
     gotoxy(16,32);printf("MATRICULA");
-    linhaV(4,75,24);Pchar(75,24,194);Pchar(75,27,193);
     AvisoEventoLimpar();
 }
 
-VcadastrarPalestra(){
+void VcadastrarPalestra(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");
@@ -351,10 +438,10 @@ VcadastrarPalestra(){
     gotoxy(16,25);printf("TEMA");
     gotoxy(16,28);printf("PALESTRANTE");
     gotoxy(16,32);printf("CADASTRO");
-    linhaV(4,75,24);Pchar(75,24,194);Pchar(75,27,193);
+
     AvisoEventoLimpar();
 }
-VcadastrarGrupos(){
+void VcadastrarGrupos(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");//30 A 50
@@ -371,7 +458,7 @@ VcadastrarGrupos(){
     linhaV(4,90,24);Pchar(90,24,194);Pchar(90,27,193);//scanf quant fica aq
     AvisoEventoGrupo();
 }
-VcadastrarCurso(){
+void VcadastrarCurso(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");//MAX 40
@@ -383,33 +470,23 @@ VcadastrarCurso(){
     gotoxy(16,32);printf("CADASTRO");
     AvisoEventoCurso();
 }
-VcadastrarOficina(){
+void VcadastrarOficina(){
     system("cls");
     Vcadastrar();
     gotoxy(16,13);printf("CAPACIDADE ");//MAX 20
-    gotoxy(16,16);printf("CARGA HORARIA");
-    gotoxy(16,19);printf("HORARIO");//TARDE
-    gotoxy(16,22);printf("LOCAL");
+    gotoxy(16,16);printf("LOCAL");
+    gotoxy(16,19);printf("CARGA HORARIA");//TARDE
+    gotoxy(16,22);printf("HORARIO");
     gotoxy(16,25);printf("TEMA");
     gotoxy(14,28);printf("PROF. PALESTRANTE");
     gotoxy(16,32);printf("CADASTRO");
     AvisoEventoOficina();
 }
-
-
-
-
-
-
-
-
-
-
 //0------------------END VISUAL CADASTROS-----------------
 //------------------VISUAL REMOVER------------------
 
 
-
+//mover todos os remover para ca depois
 
 
 //---------------------END VISUAL REMOVER----------------
@@ -417,13 +494,8 @@ VcadastrarOficina(){
 //-----------------END VISUAL---------------------
 
 
-
-
-
-
-
 //--------------------AVISOS-------
-AvisoX(){
+void AvisoX(){
     system("cls");
     //avisos como num invalido , digitado errado
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
@@ -440,7 +512,7 @@ AvisoX(){
 
 }
 
-AvisoOP(){
+void AvisoOP(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
     Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
@@ -454,23 +526,36 @@ AvisoOP(){
     gotoxy(62,23);printf("Avisos xxxxxxxxx");
 
 }
-AvisoEventoPalestra(){
+void AvisoOPCongressistas(int lim300){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
-    linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
-    Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf(" CADASTRAR");
-    gotoxy(80,15);printf(" AVISOS");
-    gotoxy(72,17);printf("Capacidade  39/50");
-    gotoxy(72,18);printf("horarios disponiveis");
-    gotoxy(72,19);printf("Avisos xxxxxxxxx");
-    gotoxy(72,20);printf("Avisos xxxxxxxxx");
-    gotoxy(72,21);printf("Avisos xxxxxxxxx");
-    gotoxy(72,22);printf("Avisos xxxxxxxxx");
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("   Capacidade  %d/300",lim300);
+    gotoxy(62,20);printf("  Limite maximo de");
+    gotoxy(62,21);printf(" congressistas no evento");
+    gotoxy(62,22);printf(" sao de 300 pessoas!");
 
 }
-AvisoEventoPalestraLocais(){
+
+void AvisoEventoCurso(){
+//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
+    linhaH(32,60,16);linhaH(32,60,25);linhaV(10,60,16);linhaV(10,91,16);
+    Pchar(60,16,218);Pchar(91,16,191);Pchar(60,25,192);Pchar(91,25,217);
+// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
+    //mensagens dos avisos irão mudar conforme a opcao escolhida
+    gotoxy(72,17);printf(" AVISO");
+    gotoxy(62,19);printf("");
+    gotoxy(62,20);printf("");
+    gotoxy(62,21);printf("");
+    gotoxy(62,22);printf("");
+    gotoxy(62,23);printf("");
+
+}
+
+void AvisoEventoPalestraLocais(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -485,23 +570,35 @@ AvisoEventoPalestraLocais(){
 
     gotoxy(72,21);printf("3-Auditorio 3        50");
 }
-AvisoEventoCursoLocais(){
+void AvisoP(){
+    //mostrar informaçoes sobre os palestrante cadastro
+    gotoxy(72,18);printf("DIGITE 0(zero)");
+
+    gotoxy(72,19);printf("PARA MOSTRAR A LISTA");
+
+    gotoxy(72,20);printf("DE PALESTRANTES");
+}
+void AvisoEventoLocais(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
 // cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
     //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(72,17);printf("  Locais disponiveis");
+    gotoxy(72,16);printf("  Locais disponiveis");
+    gotoxy(80,17);printf("         Capacidade");
+    gotoxy(72,18);printf("         1-Sala 1      50");
 
-    gotoxy(72,19);printf("         1-Sala 1        ");
+    gotoxy(72,19);printf("         2-Sala 2      50");
 
-    gotoxy(72,20);printf("         2-Sala 2        ");
+    gotoxy(72,20);printf("         3-Sala 3      50");
 
-    gotoxy(72,21);printf("         3-Sala 3        ");
+    gotoxy(72,21);printf("         4-Lab 1       20");
+
+    gotoxy(72,22);printf("         5-Lab 2       20");
 }
 
 
-AvisoEventoHorarios(char horas[7][10]){
+void AvisoEventoHorarios(char horas[7][10]){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -518,7 +615,7 @@ AvisoEventoHorarios(char horas[7][10]){
 
 }
 
-AvisoEventoLimpar(){
+void AvisoEventoLimpar(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -526,6 +623,7 @@ AvisoEventoLimpar(){
     //mensagens dos avisos irão mudar conforme a opcao escolhida
     gotoxy(79,14);printf(" CADASTRAR");
     gotoxy(80,15);printf(" AVISOS");
+    gotoxy(72,16);printf("                             ");
     gotoxy(72,17);printf("                             ");
     gotoxy(72,18);printf("                             ");
     gotoxy(72,19);printf("                             ");
@@ -535,23 +633,7 @@ AvisoEventoLimpar(){
 
 }
 
-AvisoEventoGrupo(){
-//  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
-    linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
-    Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
-// cima/esquerda  /   direira     bqixo/ esquerda      /  direita/ 1linha
-    //mensagens dos avisos irão mudar conforme a opcao escolhida
-    gotoxy(79,14);printf(" CADASTRAR");
-    gotoxy(80,15);printf(" AVISOS");
-    gotoxy(72,17);printf("Capacidade  39/50");
-    gotoxy(72,18);printf("horarios disponiveis");
-    gotoxy(72,19);printf("Avisos xxxxxxxxx");
-    gotoxy(72,20);printf("Avisos xxxxxxxxx");
-    gotoxy(72,21);printf("Avisos xxxxxxxxx");
-    gotoxy(72,22);printf("Avisos xxxxxxxxx");
-
-}
-AvisoEventoCurso(){
+void AvisoEventoGrupo(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -568,7 +650,7 @@ AvisoEventoCurso(){
 
 }
 
-AvisoEventoOficina(){
+void AvisoEventoOficina(){
 //  linha de cima, linha de baixo/ lado esquerdo/   lado direito   /Titulo
     linhaH(38,66,13);linhaH(38,66,23);linhaV(11,66,13);linhaV(11,103,13);
     Pchar(66,13,218);Pchar(103,13,191);Pchar(66,23,192);Pchar(103,23,217);
@@ -585,7 +667,7 @@ AvisoEventoOficina(){
 
 }
 //-------------------------------AJEIAR ESSE FINAL
-VeditarCongressista(){
+void VeditarCongressista(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -603,7 +685,7 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 
 }
 
-VeditarPalestra(){
+void VeditarPalestra(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -620,7 +702,7 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
-VeditarCurso(){
+void VeditarCurso(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -637,41 +719,52 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
-VremoverPalestra(){
+void VeditarOficina(){
 system("cls");
 Vcabecalho();
-//------INFORMAÇOES
-//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
-//-------------REMOVER PALESTRA
+
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR OFICINA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+
+
+}
+void VremoverPalestra(){
+system("cls");
+Vcabecalho();
+
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER PALESTRA");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
-//----------DESEJA REALMENTE REMOVER--
-//VdesejaRemover();//condicao para aparecer somente depois que aparecer
-
-//AVISOx REMOVIDO COM SUCESSO
 
 }
-VremoverGrupo(){
+void VremoverOficina(){
 system("cls");
 Vcabecalho();
-//------INFORMAÇOES
-//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
-//-------------REMOVER PALESTRA
+
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER OFICINA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+
+}
+void VremoverGrupo(){
+system("cls");
+Vcabecalho();
+
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER GRUPOS");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
-//----------DESEJA REALMENTE REMOVER--
-//VdesejaRemover();//condicao para aparecer somente depois que aparecer
-
-//AVISOx REMOVIDO COM SUCESSO
 
 }
-VremoverCurso(){
+void VremoverCurso(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -682,18 +775,13 @@ Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
-//----------DESEJA REALMENTE REMOVER--
-//VdesejaRemover();//condicao para aparecer somente depois que aparecer
-
-//AVISOx REMOVIDO COM SUCESSO
 
 }
-VremoverCongressista(){
+
+void VremoverCongressista(){
 system("cls");
 Vcabecalho();
-//------INFORMAÇOES
-//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
-//-------------REMOVER PALESTRA
+
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER CONGRESSISTA");
 //-------------NUMERO
@@ -706,7 +794,7 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 
 }
 
-VdesejaRemover(){
+void VdesejaRemover(){
 //nao esta centralizado no meio
 linhaH(30,70,17);linhaV(8,70,17);linhaH(30,70,25);linhaV(8,100,17);
 Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,20);printf("DESEJA REALMENTE REMOVER");
@@ -714,7 +802,7 @@ Pchar(70,17,218);Pchar(100,17,191);Pchar(70,25,192);Pchar(100,25,217);gotoxy(74,
 }
 
 
-VeditadoComSucesso(){
+void VeditadoComSucesso(){
     //limpa toda a tela e aparece um quadrado no meio
     system("cls");
     system("color A0");
@@ -729,7 +817,7 @@ VeditadoComSucesso(){
     }
 
 }
-AvisoNumeroNaoEncontrado(){
+void AvisoNumeroNaoEncontrado(){
     //limpa toda a tela e aparece um quadrado no meio
     system("cls");
     system("color CF");
@@ -744,7 +832,7 @@ AvisoNumeroNaoEncontrado(){
     }
 
 }
-AvisoOPinvalida(){
+void AvisoOPinvalida(){
     //limpa toda a tela e aparece um quadrado no meio
     system("cls");
     system("color CF");
@@ -760,7 +848,7 @@ AvisoOPinvalida(){
 
 
 }
-AvisoVAZIO(){
+void AvisoVAZIO(){
     //limpa toda a tela e aparece um quadrado no meio
     system("cls");
     system("color CF");
@@ -774,7 +862,21 @@ AvisoVAZIO(){
         Sleep(sl);
     }
 }
-AvisoADDsucesso(){
+void AvisoVAZIOP(){
+    //limpa toda a tela e aparece um quadrado no meio
+    system("cls");
+    system("color CF");
+    linhaH(30,38,12);linhaV(8,38,12);linhaH(30,38,20);linhaV(8,68,12);
+    Pchar(38,12,218);Pchar(68,12,191);Pchar(38,20,192);Pchar(68,20,217);
+
+    gotoxy(40,15);printf("  NAO HA PALESTRANTES!!!");
+    gotoxy(50,18);printf("VOLTANDO");
+    for(int x=58,sl=430,i=0;i<3;i++,x++){
+        gotoxy(x,18);printf(".");
+        Sleep(sl);
+    }
+}
+void AvisoADDsucesso(){
     //limpa toda a tela e aparece um quadrado no meio
     system("cls");
     system("color A0");
@@ -788,11 +890,25 @@ AvisoADDsucesso(){
         Sleep(sl);
     }
 }
+void AvisoADDsucessoSpeed(){
+    //limpa toda a tela e aparece um quadrado no meio
+    system("cls");
+    system("color A0");
+    linhaH(30,38,12);linhaV(8,38,12);linhaH(30,38,20);linhaV(8,68,12);
+    Pchar(38,12,218);Pchar(68,12,191);Pchar(38,20,192);Pchar(68,20,217);
+
+    gotoxy(41,15);printf("ADICIONADO COM SUCESSO!!!");
+    gotoxy(50,18);printf("VOLTANDO");
+    for(int x=58,sl=100,i=0;i<3;i++,x++){
+        gotoxy(x,18);printf(".");
+        Sleep(sl);
+    }
+}
 
 
 
 //-----------------------------------------Cadastrar organizador
-VcadastrarOrganizador(){
+void VcadastrarOrganizador(){
     system("cls");
 
 Vcabecalho();
@@ -818,7 +934,7 @@ Pchar(7,28,218);Pchar(37,28,191);Pchar(7,30,192);Pchar(37,30,217);gotoxy(11,29);
 //TALVEZ UM ADICIONAR NOVAMENTE AQUI
 }
 
-VeditarOrganizador(){
+void VeditarOrganizador(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -833,43 +949,49 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
-VeditarGrupo(){
+void VeditarGrupo(){
 system("cls");
 Vcabecalho();
-//------INFORMAÇOES
-//-------------REMOVER PALESTRA
+
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
 Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("EDITAR GRUPOS");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
 Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
-//----------DESEJA REALMENTE REMOVER--
-
-//AVISOx REMOVIDO COM SUCESSO
 
 }
 
-VremoverOrganizador(){
+void VremoverOrganizador(){
+system("cls");
+Vcabecalho();
+
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER ORGANIZADOR");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+void VremoverPalestra(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
 //VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
 //-------------REMOVER PALESTRA
 linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
-Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER ORGANIZADOR");
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);gotoxy(12,13);printf("REMOVER PALESTRA");
 //-------------NUMERO
 linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
-Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("MATRICULA:");
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
 //----------DESEJA REALMENTE REMOVER--
 //VdesejaRemover();//condicao para aparecer somente depois que aparecer
 
 //AVISOx REMOVIDO COM SUCESSO
 
 }
+}
 
 
 //PALESTRANTE
-VcadastrarPalestrante(){
+void VcadastrarPalestrante(){
 system("cls");
 Vcabecalho();
 
@@ -894,7 +1016,7 @@ Pchar(7,28,218);Pchar(37,28,191);Pchar(7,30,192);Pchar(37,30,217);gotoxy(11,29);
 //TALVEZ UM ADICIONAR NOVAMENTE AQUI
 }
 
-VeditarPalestrante(){
+void VeditarPalestrante(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -909,7 +1031,7 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
-VremoverPalestrante(){
+void VremoverPalestrante(){
 system("cls");
 Vcabecalho();
 //------INFORMAÇOES
@@ -926,4 +1048,129 @@ Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);
 //AVISOx REMOVIDO COM SUCESSO
 
 }
+
+void VGerenciarPalestra(){
+    system("color F0");
+system("cls");
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,31,12);linhaV(3,31,12);linhaH(30,31,14);linhaV(3,61,12);
+Pchar(31,12,218);Pchar(61,12,191);Pchar(31,14,192);Pchar(61,14,217);gotoxy(37,13);printf("GERENCIAR PALESTRA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(9,17);printf("1-ADICIONAR CONGRESSISTA");
+//-------------NUMERO
+
+linhaH(30,45,16);linhaV(3,45,16);linhaH(30,45,18);linhaV(3,75,16);
+Pchar(45,16,218);Pchar(75,16,191);Pchar(45,18,192);Pchar(75,18,217);gotoxy(47,17);printf("2-MOSTRAR POR PALESTRA");
+
+
+
+linhaH(30,7,23);linhaV(3,7,21);linhaH(30,7,21);linhaV(3,37,21);
+Pchar(7,21,218);Pchar(37,21,191);Pchar(7,23,192);Pchar(37,23,217);gotoxy(9,22);printf("3-REMOVER CONGRESSISTA");
+
+linhaH(30,45,21);linhaV(3,45,21);linhaH(30,45,23);linhaV(3,75,21);
+Pchar(45,21,218);Pchar(75,21,191);Pchar(45,23,192);Pchar(75,23,217);gotoxy(47,22);printf("4-VOLTAR");
+
+}
+
+
+void VGerenciarCurso(){
+    system("color F0");
+system("cls");
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,31,12);linhaV(3,31,12);linhaH(30,31,14);linhaV(3,61,12);
+Pchar(31,12,218);Pchar(61,12,191);Pchar(31,14,192);Pchar(61,14,217);gotoxy(37,13);printf("GERENCIAR CURSO");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(9,17);printf("1-ADICIONAR CONGRESSISTA");
+//-------------NUMERO
+
+linhaH(30,45,16);linhaV(3,45,16);linhaH(30,45,18);linhaV(3,75,16);
+Pchar(45,16,218);Pchar(75,16,191);Pchar(45,18,192);Pchar(75,18,217);gotoxy(47,17);printf("2-MOSTRAR POR CURSO");
+
+
+
+linhaH(30,7,23);linhaV(3,7,21);linhaH(30,7,21);linhaV(3,37,21);
+Pchar(7,21,218);Pchar(37,21,191);Pchar(7,23,192);Pchar(37,23,217);gotoxy(9,22);printf("3-REMOVER CONGRESSISTA");
+
+linhaH(30,45,21);linhaV(3,45,21);linhaH(30,45,23);linhaV(3,75,21);
+Pchar(45,21,218);Pchar(75,21,191);Pchar(45,23,192);Pchar(75,23,217);gotoxy(47,22);printf("4-VOLTAR");
+
+}
+
+
+void VGerenciarOficina(){
+system("color F0");
+system("cls");
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,31,12);linhaV(3,31,12);linhaH(30,31,14);linhaV(3,61,12);
+Pchar(31,12,218);Pchar(61,12,191);Pchar(31,14,192);Pchar(61,14,217);gotoxy(37,13);printf("GERENCIAR OFICINA");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(9,17);printf("1-ADICIONAR CONGRESSISTA");
+//-------------NUMERO
+
+linhaH(30,45,16);linhaV(3,45,16);linhaH(30,45,18);linhaV(3,75,16);
+Pchar(45,16,218);Pchar(75,16,191);Pchar(45,18,192);Pchar(75,18,217);gotoxy(47,17);printf("2-MOSTRAR POR OFICINA");
+
+
+
+linhaH(30,7,23);linhaV(3,7,21);linhaH(30,7,21);linhaV(3,37,21);
+Pchar(7,21,218);Pchar(37,21,191);Pchar(7,23,192);Pchar(37,23,217);gotoxy(9,22);printf("3-REMOVER CONGRESSISTA");
+
+linhaH(30,45,21);linhaV(3,45,21);linhaH(30,45,23);linhaV(3,75,21);
+Pchar(45,21,218);Pchar(75,21,191);Pchar(45,23,192);Pchar(75,23,217);gotoxy(47,22);printf("4-VOLTAR");
+
+}
+void VGerenciarGrupo(){
+system("cls");
+Vcabecalho();
+//------INFORMAÇOES
+//VinformacoesRemover();//condicao para so aparecer depois que digitar a matricula
+//-------------REMOVER PALESTRA
+linhaH(30,31,12);linhaV(3,31,12);linhaH(30,31,14);linhaV(3,61,12);
+Pchar(31,12,218);Pchar(61,12,191);Pchar(31,14,192);Pchar(61,14,217);gotoxy(37,13);printf("GERENCIAR GRUPOS");
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(9,17);printf("1-ADICIONAR CONGRESSISTA");
+//-------------NUMERO
+
+linhaH(30,45,16);linhaV(3,45,16);linhaH(30,45,18);linhaV(3,75,16);
+Pchar(45,16,218);Pchar(75,16,191);Pchar(45,18,192);Pchar(75,18,217);gotoxy(47,17);printf("2-MOSTRAR POR GRUPOS");
+
+
+
+linhaH(30,7,23);linhaV(3,7,21);linhaH(30,7,21);linhaV(3,37,21);
+Pchar(7,21,218);Pchar(37,21,191);Pchar(7,23,192);Pchar(37,23,217);gotoxy(9,22);printf("3-REMOVER CONGRESSISTA");
+
+linhaH(30,45,21);linhaV(3,45,21);linhaH(30,45,23);linhaV(3,75,21);
+Pchar(45,21,218);Pchar(75,21,191);Pchar(45,23,192);Pchar(75,23,217);gotoxy(47,22);printf("4-VOLTAR");
+
+}
+
+void VgerenciarMostrar(){
+system("cls");
+Vcabecalho();
+
+linhaH(30,7,12);linhaV(3,7,12);linhaH(30,7,14);linhaV(3,37,12);
+Pchar(7,12,218);Pchar(37,12,191);Pchar(7,14,192);Pchar(37,14,217);
+//-------------NUMERO
+linhaH(30,7,16);linhaV(3,7,16);linhaH(30,7,18);linhaV(3,37,16);
+Pchar(7,16,218);Pchar(37,16,191);Pchar(7,18,192);Pchar(37,18,217);gotoxy(12,17);printf("CADASTRO:");
+}
+
+
+
+
+
+
 
