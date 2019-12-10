@@ -1,43 +1,23 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <string.h>
 #include<windows.h>
+#include "Palestra.h"
+#include "Palestrante.h"
 #include "Visual.h"
-    char horasBASE[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
-    char horasL1[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
-    char horasL2[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
-    char horasL3[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
 
+char horasBASE[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+char horasL1[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+char horasL2[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
+char horasL3[7][10]={"0","07:00","08:00","09:00","10:00","11:00","12:00"};
 
+typedef struct palestra PALESTRA;
+typedef struct capsula CAPS;
+typedef struct lista LISTA;
 
-#define C_BLACK      "\x1b[30m"
-#define C_RED      "\x1b[31m"
-#define C_GREEN      "\x1b[32m"
-#define C_YELLOW      "\x1b[33m"
-#define C_WATER      "\x1b[36m"
-#define C_BLUE   "\x1b[34m"
-#define C_WHITE      "\x1b[1m"
-
-typedef struct{
-    int n_cadastroP;
-    int capacidade;
-    char horario[5];
-    int cargaHoraria;
-    int local;//ou int local 1laboratorio 2
-    char tema[30];
-    char palestrante[30];
-    int EditH;
-}EVENTOP;//evento palestras
-
-
-//--------------------------------fila para eventos-----------
-typedef struct capsula{
-    EVENTOP dado;
-    struct capsula *proximo;
-}CAPS;
-
-typedef struct{
-    CAPS *inicio;
-}LISTA;
+typedef struct palestrante PALESTRANTE;
+typedef struct capsulapT CAPSpT;
+typedef struct listapT LISTApT;
 
 LISTA* Criar(){
     LISTA* li=(LISTA*)malloc(sizeof(LISTA));
@@ -61,6 +41,7 @@ void liberar(LISTA *li){
     }
 }
 void mostrarTodosP(LISTA* li){
+    system("cls");
     //mostrar todos os campeonados cadastrados
     if(li==NULL){
         printf("ERRO DE ALOCACAO!!!\n");
@@ -70,14 +51,15 @@ void mostrarTodosP(LISTA* li){
         }else{
             CAPS* aux = li->inicio;
             while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
-                printf("\nCadastro: %d                                       |",aux->dado.n_cadastroP);
-                printf("\nHorario: %s",aux->dado.horario);
-                printf("\nCarga horaria: %d",aux->dado.cargaHoraria);
-                printf("\nlocal: Auditorio %d",aux->dado.local);
-                printf("\nCapacidade: %d",aux->dado.capacidade);
-                printf("\n\nTema: %s",aux->dado.tema);
-                printf("\nPalestrante: %s",aux->dado.palestrante);
-                printf("\n--------------------------------------------\n");
+                PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+                printf("  Cadastro: %d        \n",aux->dado.n_cadastroP);
+                printf("  Horario: %s         \n",aux->dado.horario);
+                printf("  Carga horaria: %d   \n",aux->dado.cargaHoraria);
+                printf("  local: Auditorio %d \n",aux->dado.local);
+                printf("  Capacidade: %d      \n",aux->dado.capacidade);
+                printf("  Tema: %s            \n",aux->dado.tema);
+                printf("  Palestrante: %s     \n",aux->dado.palestrante);
+                PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
 
                 aux=aux->proximo;
             }
@@ -103,7 +85,7 @@ int tamanhoLista(LISTA *li){
     }
 }
 
-void inserirLista(LISTA *li,EVENTOP eP){//insere na ordem de matricula
+void inserirLista(LISTA *li,PALESTRA eP){//insere na ordem de matricula
     if(li==NULL){
         //ERRO
     }else{
@@ -153,7 +135,7 @@ int mostrarEmRemover(CAPS *aux){
         }
 
 }
-void removerLista(LISTA *li,int num){//recebe numero da matricula
+int removerLista(LISTA *li,int num){//recebe numero da matricula
 
     if(li==NULL){
         //ERRO
@@ -165,9 +147,10 @@ void removerLista(LISTA *li,int num){//recebe numero da matricula
             if(aux->dado.n_cadastroP==num){//se for o 1 da lista
                 li->inicio=aux->proximo;//inicio aponta pro proximo
                 if(mostrarEmRemover(aux)){
-                    return;
+                    return 1;
                 }
                 free(aux);
+                return 0;
             }else{
                 CAPS *ante;
                 while((aux!=NULL)&&(aux->dado.n_cadastroP!=num)){//varre a lista e enquando nao for igual ao que procura ele roda
@@ -175,14 +158,15 @@ void removerLista(LISTA *li,int num){//recebe numero da matricula
                     aux=aux->proximo;
                 }
                 if(aux==NULL){//caso nao tenha enconrado nada na lista
-                    AvisoNumeroNaoEcontrado();
-                    return;
+                    AvisoNumeroNaoEncontrado();
+                    return 1;
                 }
                 ante->proximo=aux->proximo;//
                 if(mostrarEmRemover(aux)){//se deseja realmente remover
-                        return;
+                        return 1;
                 }
                 free(aux);
+                return 0;
             }
         }
     }
@@ -212,7 +196,7 @@ int PegarLocalPalestra(){
                 on=0;
                 break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
@@ -249,7 +233,7 @@ int PegarHorarioPalestra(char horas[7][10]){
                 gotoxy(46,22);printf("%s",horas[hora]);
                 return hora;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
@@ -257,9 +241,8 @@ int PegarHorarioPalestra(char horas[7][10]){
     gotoxy(39,32);printf("                                                            ");
 }
 
-pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
+void pegarInfoPalestra(PALESTRA *eP,LISTA *liP,int n_cadastroP, LISTApT *lipT){
 
-    n_cadastroP++;//1000
     gotoxy(27,32);printf("%d",n_cadastroP);
     eP->n_cadastroP=n_cadastroP;
 //------------------------------capacidade
@@ -291,19 +274,19 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
 
     int H;
     if(eP->local==1){
-            AvisoEventoPalestraHorario(horasL1);
+            AvisoEventoHorarios(horasL1);
             H =PegarHorarioPalestra(horasL1);
             strcpy(eP->horario,horasL1[H]);
             strcpy(horasL1[H],"indis.");
         }
         if(eP->local==2){
-            AvisoEventoPalestraHorario(horasL2);
+            AvisoEventoHorarios(horasL2);
             H =PegarHorarioPalestra(horasL2);
             strcpy(eP->horario,horasL2[H]);
             strcpy(horasL2[H],"indis.");
         }
         if(eP->local==3){
-            AvisoEventoPalestraHorario(horasL3);
+            AvisoEventoHorarios(horasL3);
             H =PegarHorarioPalestra(horasL3);
             strcpy(eP->horario,horasL3[H]);
             strcpy(horasL3[H],"indis.");
@@ -314,18 +297,19 @@ pegarInfoPalestra(EVENTOP *eP,LISTA *liP,int n_cadastroP){
 
 //--------------------------------tema
     AvisoEventoLimpar();
-    gotoxy(40,25);gets(eP->tema);
+    gotoxy(40,25);gets(eP->tema);setbuf(stdin,NULL);
 //-----------------------------palestrantes
     //verificar se est]ao cadastrados
-    gotoxy(40,28);gets(eP->palestrante);setbuf(stdin,NULL);
-        //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
+    int palestranteP;
+    AvisoP();
+    gotoxy(40,28);scanf("%d",&palestranteP);setbuf(stdin,NULL);
+    char *nome=(char*)malloc(50*sizeof(char));
+    strcpy(eP->palestrante,MostrarPalestrantes(lipT,&nome));
+    free(nome);
+
 }
-//verificarPalestrante(PALESTRANTES *p, char palestrante){
-                //verificar os palestrantes cadastrados com os digitados
-                //se nao encontrar pedir pra digitar novamente e mostra mensagem de erro
 
-
-EditarLocalPalestra(CAPS *aux){
+void EditarLocalPalestra(CAPS *aux){
     //transforma a opcao local 1,2,3 em uma string
 
     //Verificar qual a escolhida e diminuir um para alterar caso ele va do aud 1 para o 2; o 1 diminui 1 e o 2 aumenta-ra 1 dps
@@ -357,7 +341,7 @@ EditarLocalPalestra(CAPS *aux){
                 on=0;
                 break;
             default:
-                gotoxy(39,32);printf(C_RED"POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!"C_WHITE);
+                gotoxy(39,32);printf("POR FAVOR ESCOLHA UMA ENTRE AS OPCOES!!!");
 
         }
 
@@ -375,21 +359,21 @@ EditarHorarioPalestra(CAPS *aux){
         int H;
     if(aux->dado.local==1){
             strcpy(horasL1[aux->dado.EditH],horasBASE[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
-            AvisoEventoPalestraHorario(horasL1);//mostra os horarios disponiveis
+            AvisoEventoHorarios(horasL1);//mostra os horarios disponiveis
             H =PegarHorarioPalestra(horasL1);//pega a posicao da hora
             strcpy(aux->dado.horario,horasL1[H]);//e guarda essa hora
             strcpy(horasL1[H],"indis.");//dps transforma ela em indispponivel
         }
         if(aux->dado.local==2){//cada palestra pode ocorrer em locais diferentes so que na mesma hora
             strcpy(horasL2[aux->dado.EditH],horasBASE[aux->dado.EditH]);
-            AvisoEventoPalestraHorario(horasL2);
+            AvisoEventoHorarios(horasL2);
             H =PegarHorarioPalestra(horasL2);
             strcpy(aux->dado.horario,horasL2[H]);
             strcpy(horasL2[H],"indis.");
         }
         if(aux->dado.local==3){
             strcpy(horasL3[aux->dado.EditH],horasBASE[aux->dado.EditH]);
-            AvisoEventoPalestraHorario(horasL3);
+            AvisoEventoHorarios(horasL3);
             H =PegarHorarioPalestra(horasL3);
             strcpy(aux->dado.horario,horasL3[H]);
             strcpy(horasL3[H],"indis.");
@@ -399,9 +383,7 @@ EditarHorarioPalestra(CAPS *aux){
     gotoxy(39,32);printf("                                                            ");
 }
 
-
-void editarPalestra(LISTA* li, int cadastroINFO){
-
+void editarPalestra(LISTA* li, int cadastroINFO,LISTApT *lipT){
     if(li !=NULL){
         CAPS* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
@@ -437,70 +419,171 @@ void editarPalestra(LISTA* li, int cadastroINFO){
                 //---------------------------horario
 
                 EditarHorarioPalestra(aux);
+                AvisoEventoLimpar();
 
 
                 //--------------------------------tema
-                
+
                 gotoxy(40,25);printf("%s",aux->dado.tema);
                 gotoxy(38,26);printf("=>");
-                gotoxy(40,26);gets(aux->dado.tema);
+                gotoxy(40,26);gets(aux->dado.tema);setbuf(stdin,NULL);
                 //-----------------------------palestrantes
                 //verificar se est]ao cadastrados
-                gotoxy(40,28);printf("%s",aux->dado.palestrante);
-                gotoxy(38,29);printf("=>");
-                gotoxy(40,29);gets(aux->dado.palestrante);
-
+                int palestranteP;
+                AvisoP();
+                gotoxy(40,28);scanf("%d",&palestranteP);setbuf(stdin,NULL);
+                strcpy(aux->dado.palestrante,MostrarPalestrantesGRUPOS(lipT,-1));
                 VeditadoComSucesso();
                 return;
             }
             aux=aux->proximo;
         }
         //caso nao tenha entrado no if e dado break;
-        AvisoNumeroNaoEcontrado();
+        AvisoNumeroNaoEncontrado();
         return;
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
     }
 }
 
+void adicionarCongressista(LISTA *li,int Palestra,char *nome,int MAT){
+    //adiciona na palestra informada o nome, e matricula
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPS* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.n_cadastroP==Palestra){//acha a palestra
+                    for(int i=0;i<150;i++){
+                        if(aux->dado.CongN[i]==0){//adiciona o nome onde tiver vago
+                           aux->dado.CongN[i]=MAT;
+                           strcpy(aux->dado.CongNome[i],nome);
 
-main(){
+
+                            return;
+                        }
+                    }
+                }
+
+                aux=aux->proximo;
+            }
+        }
+    }
 
 
-    VcadastrarPalestra();
 
-    EVENTOP eP;
-    LISTA *liP=Criar();
-    int n_cadastroP=1000;
+}
 
-    pegarInfoPalestra(&eP,liP,n_cadastroP);
-    inserirLista(liP,eP);
-    //mostrar todos
-    //
+//mostrar todos os congressistas em determinada palestra
+void MostrarCongressistaPorPalestra(LISTA *li,int Palestra){
     system("cls");
-    int num_editar;
-    VeditarPalestra();
-    gotoxy(22,17);scanf("%d",&num_editar);
-    system("cls");
-    editarPalestra(liP,num_editar);
-    //
-    system("cls");
-    mostrarTodosP(liP);
-    getchar();
-    getchar();
-    //remover
-    system("cls");
-    int num_remover;
-    VremoverPalestra();
-    gotoxy(22,17);scanf("%d",&num_remover);
-    removerLista(liP,num_remover);
-//editar
 
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPS* aux = li->inicio;
+            printf("CONGRESSISTAS CADASTRADOS NA PALESTRA %d\n",Palestra);
+            PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroP==Palestra){
+                    for(int i=0;i<150;i++){
+                        if((aux->dado.CongN[i]!=0)&&(aux->dado.CongN[i])){
+                            printf("     %d   -   %s\n",aux->dado.CongN[i],aux->dado.CongNome[i]);
+                        }else{
+                            break;
+                        }
+                    }
 
-    liberar(liP);
+                }
+
+                aux=aux->proximo;
+            }
+            PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+        }
+    }
+
+}
+
+void RemoverCongressistaDaPalestra(LISTA *li,int Palestra,int Matricula){
+
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPS* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroP==Palestra){
+                    for(int i=0;i<150;i++){
+                        if(aux->dado.CongN[i]==Matricula){
+                            aux->dado.CongN[i]=0;
+                            strcpy(aux->dado.CongNome[i],"---");
+                        }
+                    }
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+
 }
 
 
+void desocuparPalestrante(LISTApT *lipT,LISTA *liP,int Palestra){
+    if(liP==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(liP->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPS* aux = liP->inicio;
+            CAPSpT* aux2=lipT->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroP==Palestra){
+                    if(strcmp(aux->dado.palestrante,aux2->dado.nome)==0){
+                    aux2->dado.ocupado=0;
+                }
+
+                }
+                aux2=aux2->proximo;
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
+
+void removerHorario(LISTA *li, int Palestra){
+     if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPS* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.local==1){
+                strcpy(horasL1[aux->dado.EditH],horasBASE[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==2){
+                strcpy(horasL2[aux->dado.EditH],horasBASE[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
+                if(aux->dado.local==3){
+                strcpy(horasL2[aux->dado.EditH],horasBASE[aux->dado.EditH]);//tira o que ja tava como indisponivel e coloca o base
+                }
 
 
-//para rodar basta colocar no projeto com visual
+                aux=aux->proximo;
+            }
+        }
+    }
+
+}
+
