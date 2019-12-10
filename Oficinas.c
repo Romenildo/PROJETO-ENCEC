@@ -340,12 +340,12 @@ void pegarInfoOficina(EVENTOOf *oF,LISTAOf *liOf,int n_cadastroOf, LISTApT *lipT
     int palestranteOf;
     AvisoP();
     gotoxy(40,28);scanf("%d",&palestranteOf);setbuf(stdin,NULL);
-    strcpy(oF->palestrante,MostrarPalestrantes(lipT));
+    char *nome=(char*)malloc(50*sizeof(char));
+    strcpy(oF->palestrante,MostrarPalestrantes(lipT,&nome));
+    free(nome);
 
         //verificarPalestrante(&eP,&p,palestrante[i]);//mostrar na frente do numero o erro em vermelho
 }
-
-
 void EditarLocalOficina(CAPSOf *aux){
     //transforma a opcao local 1,2,3 em uma string
 
@@ -446,7 +446,7 @@ void EditarHorarioOficina(CAPSOf *aux){
 
     gotoxy(39,32);printf("                                                            ");
 }
-void editarOficina(LISTAOf* li, int cadastroINFO){
+void editarOficina(LISTAOf* li, int cadastroINFO,LISTApT *lipT){
     if(li !=NULL){
         CAPSOf* aux=li->inicio;
         while(aux!=NULL){//varre todos da lista
@@ -488,6 +488,7 @@ void editarOficina(LISTAOf* li, int cadastroINFO){
                 //---------------------------horario
 
                 EditarHorarioOficina(aux);
+                AvisoEventoLimpar();
 
 
                 //--------------------------------tema
@@ -497,10 +498,12 @@ void editarOficina(LISTAOf* li, int cadastroINFO){
                 gotoxy(40,26);gets(aux->dado.tema);setbuf(stdin,NULL);
                 //-----------------------------palestrantes
                 //verificar se est]ao cadastrados
-                gotoxy(40,28);printf("%s",aux->dado.palestrante);
-                gotoxy(38,29);printf("=>");
-                gotoxy(40,29);gets(aux->dado.palestrante);
-
+                int palestranteOf;
+                AvisoP();
+                gotoxy(40,28);scanf("%d",&palestranteOf);setbuf(stdin,NULL);
+                char *nome=(char*)malloc(50*sizeof(char));
+                strcpy(aux->dado.palestrante,MostrarPalestrantes(lipT,&nome));
+                free(nome);
                 VeditadoComSucesso();
                 return;
             }
@@ -512,6 +515,90 @@ void editarOficina(LISTAOf* li, int cadastroINFO){
     }else{
         printf("ERRO DE ALOCACAO!!!\n");
     }
+}
+
+
+void adicionarCongressistaOf(LISTAOf *li,int Oficina,char *nome,int MAT){
+    //adiciona na palestra informada o nome, e matricula
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSOf* aux = li->inicio;
+            while(aux!=NULL){
+                if(aux->dado.n_cadastroOf==Oficina){//acha a palestra
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==0){//adiciona o nome onde tiver vago
+                           aux->dado.CongN[i]=MAT;
+                           strcpy(aux->dado.CongNome[i],nome);
+
+
+                            return;
+                        }
+                    }
+                }
+
+                aux=aux->proximo;
+            }
+        }
+    }
+}
+void MostrarCongressistaPorOficina(LISTAOf *li,int Oficina){
+    system("cls");
+
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSOf* aux = li->inicio;
+            printf("CONGRESSISTAS CADASTRADOS NA OFICINA %d\n",Oficina);
+            PFchar(218);PlinhaH(50);PFchar(191);printf("\n");
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroOf==Oficina){
+                    for(int i=0;i<50;i++){
+                        if((aux->dado.CongN[i]!=0)&&(aux->dado.CongN[i])){
+                            printf("     %d   -   %s\n",aux->dado.CongN[i],aux->dado.CongNome[i]);
+                        }else{
+                            break;
+                        }
+                    }
+
+                }
+
+                aux=aux->proximo;
+            }
+            PFchar(192);PlinhaH(50);PFchar(217);printf("\n");
+        }
+    }
+
+}
+
+void RemoverCongressistaDaOficina(LISTAOf *li,int Oficina,int Matricula){
+    if(li==NULL){
+        printf("ERRO DE ALOCACAO!!!\n");
+    }else{
+        if(li->inicio==NULL){
+            printf("LISTA VAZIA\n");
+        }else{
+            CAPSOf* aux = li->inicio;
+            while(aux!=NULL){//talvez fze uma lihaH e colocar um caractere | antes de cada print
+                if(aux->dado.n_cadastroOf==Oficina){
+                    for(int i=0;i<50;i++){
+                        if(aux->dado.CongN[i]==Matricula){
+                            aux->dado.CongN[i]=0;
+                            strcpy(aux->dado.CongNome[i],"---");
+                        }
+                    }
+                }
+                aux=aux->proximo;
+            }
+        }
+    }
+
 }
 
 
